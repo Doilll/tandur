@@ -1,18 +1,11 @@
-
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Navbar from "@/components/ui/Navbar";
-import {
-  ArrowRight,
-  Leaf,
-  ShieldCheck,
-  Users,
-} from "lucide-react";
+import Navbar from "@/components/Navbar";
+import { ArrowRight, Leaf, ShieldCheck, Users, Search } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import FarmerCard from "@/components/FarmerCard";
 import Footer from "@/components/Footer";
-
 
 export default function HomePage() {
   const dummyProduk = [
@@ -178,6 +171,16 @@ export default function HomePage() {
               Pesan sekarang atau pre-order untuk panen berikutnya. Kesegaran
               terjamin!
             </p>
+            <div className="relative mt-8 max-w-md mx-auto">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                <Search className="w-5 h-5" />
+              </span>
+              <input
+                type="text"
+                placeholder="Cari produk..."
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              />
+            </div>
             <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {dummyProduk.map((product) => (
                 <ProductCard key={product.id} product={product} />
