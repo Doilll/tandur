@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,7 @@ import { ArrowRight, Leaf, ShieldCheck, Users, Search } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import FarmerCard from "@/components/FarmerCard";
 import Footer from "@/components/Footer";
+import { SessionProvider } from "next-auth/react";
 
 export default function HomePage() {
   const dummyProduk = [
@@ -62,7 +65,9 @@ export default function HomePage() {
 
   return (
     <div className="bg-white">
-      <Navbar />
+      <SessionProvider>
+        <Navbar />
+      </SessionProvider>
       <main>
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">

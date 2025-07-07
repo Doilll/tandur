@@ -1,8 +1,108 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSession, signOut } from "next-auth/react";
+
+// Import komponen dari shadcn/ui
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+// Komponen untuk menampilkan status otentikasi
+const AuthNav = ({
+  isScrolled,
+  isMobile = false,
+}: {
+  isScrolled: boolean;
+  isMobile?: boolean;
+}) => {
+  const { data: session, status } = useSession();
+  const navTextColor = isScrolled ? "text-slate-900" : "text-white";
+  // --- Tampilan Loading ---
+  if (status === "loading") {
+    return (
+      <div className="h-10 w-24 rounded-md bg-slate-200 animate-pulse"></div>
+    );
+  }
+
+  // --- Tampilan Jika User Sudah Login ---
+  if (status === "authenticated") {
+    const user = session.user;
+    const userInitial = user?.name?.charAt(0).toUpperCase() || "T";
+
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+            <Avatar className="h-10 w-10">
+              <AvatarImage src={user.image!} alt={user.name!} />
+              <AvatarFallback>{userInitial}</AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">{user.name}</p>
+              <p className="text-xs leading-none text-muted-foreground">
+                {user.email}
+              </p>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard">Dashboard</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/profil">Profil</Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="cursor-pointer"
+          >
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  }
+
+  // --- Tampilan Jika Belum Login (Default) ---
+  if (isMobile) {
+    return (
+      <div className="flex flex-col space-y-2">
+        <Button asChild className="w-full" variant="outline">
+          <Link href="/sign-in">Login</Link>
+        </Button>
+        <Button asChild className="w-full">
+          <Link href="/sign-in">Sign Up</Link>
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`flex items-center space-x-3 ${navTextColor}`}>
+      <Button asChild>
+        <Link href="/sign-in">Login</Link>
+      </Button>
+      <Button asChild>
+        <Link href="/sign-in">Sign Up</Link>
+      </Button>
+    </div>
+  );
+};
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,154 +113,110 @@ const Navbar = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
+    // Set initial state
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const navTextColor = isScrolled ? "text-slate-900" : "text-white";
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+        isScrolled ? "bg-white/80 shadow-md backdrop-blur-sm" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4">
         <div
-          className="flex items-center justify-between h-16"
+          className="flex items-center justify-between h-20"
           style={{ fontFamily: "mona-sans" }}
         >
           {/* Logo */}
-          <div className="flex items-center">
-        <Link href="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 flex items-center justify-center bg-green-600 rounded-full">
-            <img src="/favicon.png" alt="Tandur Logo" className="w-full h-full rounded-full" />
-          </div>
-          <span
-            className={`text-xl font-bold ${
-          isScrolled ? "text-slate-900" : "text-white"
-            }`}
-          >
-            Tandur
-          </span>
-        </Link>
-          </div>
+          <Link href="/" className="flex items-center space-x-3">
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-100">
+              <Image
+                src="/favicon.png" // Ganti dengan path logo yang benar
+                alt="Tandur Logo"
+                width={40}
+                height={40}
+              />
+            </div>
+            <span className={`text-2xl font-bold ${navTextColor}`}>Tandur</span>
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8" style={{ fontFamily: "mona-sans" }}>
-        <Link
-          href="#tentang"
-          className={`hover:text-green-600 transition-colors ${
-            isScrolled ? "text-slate-700" : "text-white"
-          }`}
-        >
-          Tentang
-        </Link>
-        <Link
-          href="#produk"
-          className={`hover:text-green-600 transition-colors ${
-            isScrolled ? "text-slate-700" : "text-white"
-          }`}
-        >
-          Produk
-        </Link>
-        <Link
-          href="/petani"
-          className={`hover:text-green-600 transition-colors ${
-            isScrolled ? "text-slate-700" : "text-white"
-          }`}
-        >
-          Petani
-        </Link>
-        <Link
-          href="/kontak"
-          className={`hover:text-green-600 transition-colors ${
-            isScrolled ? "text-slate-700" : "text-white"
-          }`}
-        >
-          Kontak
-        </Link>
-          </div>
-
-          {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-3" style={{ fontFamily: "mona-sans" }}>
-        <Link
-          href="/sign-in"
-          className={`px-4 py-2 rounded-4xl font-medium transition-colors ${
-            isScrolled
-          ? "bg-white text-green-600 border-2 border-green-600 hover:border-black hover:text-black"
-          : "bg-transparent bg-opacity-20 text-white hover:bg-opacity-40 border-2 border-green-600 hover:border-green-700"
-          }`}
-        >
-          Login
-        </Link>
-        <Link
-          href="/sign-in"
-          className={`px-4 py-2 rounded-full font-medium transition-colors ${
-            isScrolled
-          ? "bg-green-600 text-white hover:bg-green-700"
-          : "bg-white bg-opacity-20 text-green-600 hover:bg-opacity-40 hover:bg-green-500 hover:text-black"
-          }`}
-        >
-          Sign Up
-        </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className={`md:hidden ${
-          isScrolled ? "text-slate-900" : "text-white"
-        }`}
-          >
-        {isMobileMenuOpen ? (
-          <X className="w-6 h-6" />
-        ) : (
-          <Menu className="w-6 h-6" />
-        )}
-          </button>
-        </div>
-      </div>
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-t">
-          <div className="px-2 pt-2 pb-3 space-y-1">
+          <div className="hidden md:flex items-center space-x-8">
             <Link
-              href="#tentang"
-              className="block px-3 py-2 text-slate-700 hover:text-green-600"
+              href="/#tentang"
+              className={`hover:text-green-500 transition-colors ${navTextColor}`}
             >
               Tentang
             </Link>
             <Link
-              href="#produk"
-              className="block px-3 py-2 text-slate-700 hover:text-green-600"
+              href="/#produk"
+              className={`hover:text-green-500 transition-colors ${navTextColor}`}
             >
               Produk
             </Link>
             <Link
               href="/petani"
-              className="block px-3 py-2 text-slate-700 hover:text-green-600"
+              className={`hover:text-green-500 transition-colors ${navTextColor}`}
             >
               Petani
             </Link>
             <Link
               href="/kontak"
-              className="block px-3 py-2 text-slate-700 hover:text-green-600"
+              className={`hover:text-green-500 transition-colors ${navTextColor}`}
             >
               Kontak
             </Link>
-            <div className="px-0.5 py-2">
-              <div className="flex flex-col space-y-2">
-                <Link
-                  href="/sign-in"
-                  className="block w-full px-4 py-2 rounded-4xl font-medium text-green-600 border-2 border-green-600 bg-white hover:border-black hover:text-black transition-colors text-center"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/sign-in"
-                  className="block w-full px-4 py-2 rounded-full font-medium bg-green-600 text-white hover:bg-green-700 transition-colors text-center"
-                >
-                  Sign Up
-                </Link>
-              </div>
+          </div>
+
+          {/* Desktop Auth Section */}
+          <div className="hidden md:flex">
+            <AuthNav isScrolled={isScrolled} />
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`md:hidden ${navTextColor}`}
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-7 h-7" />
+            ) : (
+              <Menu className="w-7 h-7" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white/95 backdrop-blur-sm border-t">
+          <div className="px-4 pt-4 pb-6 space-y-4">
+            <Link
+              href="/#tentang"
+              className="block text-slate-700 hover:text-green-600"
+            >
+              Tentang
+            </Link>
+            <Link
+              href="/#produk"
+              className="block text-slate-700 hover:text-green-600"
+            >
+              Produk
+            </Link>
+            <Link
+              href="/petani"
+              className="block text-slate-700 hover:text-green-600"
+            >
+              Petani
+            </Link>
+            <div className="border-t pt-4">
+              <AuthNav isScrolled={isScrolled} isMobile={true} />
             </div>
           </div>
         </div>
