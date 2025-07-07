@@ -61,13 +61,12 @@ const Footer = () => (
         <div>
           <h3 className="text-lg font-semibold mb-4">Kontak</h3>
           <ul className="space-y-2 text-slate-400">
-            <li>Email: info@tandur.id</li>
+            <li>Email: webtandur@gmail.com</li>
             <li>Telepon: (021) 123-4567</li>
-            <li>Alamat: Jakarta, Indonesia</li>
+            <li>Alamat: Surabaya, Indonesia</li>
           </ul>
         </div>
       </div>
-
       <div className="border-t border-slate-800 mt-8 pt-8 text-center text-slate-400">
         <p>&copy; 2024 Tandur. Semua hak dilindungi.</p>
       </div>

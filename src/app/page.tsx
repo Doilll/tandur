@@ -1,62 +1,31 @@
-"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Navbar from "@/components/Navbar";
 import { ArrowRight, Leaf, ShieldCheck, Users, Search } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import FarmerCard from "@/components/FarmerCard";
 import Footer from "@/components/Footer";
-import { SessionProvider } from "next-auth/react";
 
-export default function HomePage() {
-  const dummyProduk = [
-    {
-      id: "1",
-      name: "Cabai Rawit Merah",
-      price: 55000,
-      unit: "kg",
-      imageUrl: "/images/cabai.jpg",
-      petani: { name: "Pak Budi", lokasi: "Lembang" },
-    },
-    {
-      id: "2",
-      name: "Tomat Ceri Organik",
-      price: 25000,
-      unit: "kg",
-      imageUrl: "/images/tomat.jpg",
-      petani: { name: "Ibu Siti", lokasi: "Pangalengan" },
-    },
-    {
-      id: "3",
-      name: "Bayam Hidroponik",
-      price: 15000,
-      unit: "ikat",
-      imageUrl: "/images/bayam.jpg",
-      petani: { name: "Mas Agung", lokasi: "Ciwidey" },
-    },
-    {
-      id: "4",
-      name: "Kentang Dieng",
-      price: 18000,
-      unit: "kg",
-      imageUrl: "/images/kentang.jpg",
-      petani: { name: "Kang Ujang", lokasi: "Dieng" },
-    },
-  ];
+export default async function HomePage() {
+
+  const res = await fetch("http://localhost:3000/api/produk", {
+    cache: "no-store",
+  })
+  const data = await res.json();
+  const produks = data.data || [];
 
   const dummyPetani = [
     {
       id: "1",
-      name: "Pak Budi Santoso",
+      name: "Pak Darmuji Snarek",
       lokasi: "Lembang, Jawa Barat",
       imageUrl: "/images/petani1.jpg",
       bio: "Menanam dengan hati, untuk hasil tani yang menyehatkan.",
     },
     {
       id: "2",
-      name: "Ibu Siti Aminah",
+      name: "Ibu Nawik Tralis",
       lokasi: "Pangalengan, Jawa Barat",
       imageUrl: "/images/petani2.jpg",
       bio: "Kualitas adalah janji dari lahan kami kepada Anda.",
@@ -65,9 +34,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-white">
-      <SessionProvider>
-        <Navbar />
-      </SessionProvider>
+      
       <main>
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
@@ -104,7 +71,7 @@ export default function HomePage() {
                   Jelajahi Hasil Tani <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="secondary" asChild>
+              <Button size="lg" variant="secondary" className="hover:border" asChild>
                 <Link href="#tentang">Pelajari Lebih Lanjut</Link>
               </Button>
             </div>
@@ -187,7 +154,7 @@ export default function HomePage() {
               />
             </div>
             <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {dummyProduk.map((product) => (
+              {produks.map((product: any) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>

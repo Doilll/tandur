@@ -8,7 +8,7 @@ const ProductCard = ({ product }: { product: any }) => (
     <Link href={`/produk/${product.id}`} className="block">
       <div className="relative h-48 w-full">
         <Image
-          src={product.imageUrl}
+          src={product.imageUrl[0]}
           alt={product.name}
           fill
           style={{ objectFit: "cover" }}
