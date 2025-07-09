@@ -1,11 +1,18 @@
 // src/app/(dashboard)/dashboard/page.tsx
-"use client"; // <-- TAMBAHKAN INI DI BARIS PALING ATAS
+"use client";
 import { Leaf, Package, BarChart3 } from "lucide-react";
 import DisplayProyek from "@/components/DisplayProyek";
 import { useEffect, useState } from "react";
-import { ProyekTani } from "@prisma/client";
-import { useRouter } from "next/navigation"; // <-- Import useRouter
-import FormProyekBaru from "@/components/FormProyekBaru"; // <-- Import komponen form
+import { ProyekTani, FaseProyek } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import FormProyekBaru from "@/components/FormProyekBaru";
+
+// Definisikan tipe yang sesuai dengan yang diharapkan DisplayProyek
+type ProyekWithFaseGambar = ProyekTani & {
+  fase: {
+    gambar: string[];
+  }[];
+};
 
 // Komponen StatCard tidak perlu diubah, sudah bagus
 const StatCard = ({ title, value, icon: Icon, colorClass }: any) => (
@@ -20,12 +27,11 @@ const StatCard = ({ title, value, icon: Icon, colorClass }: any) => (
   </div>
 );
 
-// Halaman sekarang tidak lagi 'async'
 export default function DashboardOverviewPage() {
-  const router = useRouter(); // <-- Hook untuk refresh data
+  const router = useRouter();
 
-  // State untuk data dan modal
-  const [proyek, setProyek] = useState<ProyekTani[]>([]);
+  // State untuk data dan modal - gunakan tipe yang tepat
+  const [proyek, setProyek] = useState<ProyekWithFaseGambar[]>([]);
   const [stats, setStats] = useState({ proyekAktif: 0, totalProduk: 0 });
   const [aktivitasTerbaru, setAktivitasTerbaru] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,20 +41,31 @@ export default function DashboardOverviewPage() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      // Fetch proyek menggunakan API yang sudah ada
-      const res = await fetch("/api/proyek");
+      // Fetch proyek dengan include fase
+      const res = await fetch("/api/proyek?include=fase");
       if (!res.ok) throw new Error("Gagal mengambil data");
 
       const data = await res.json();
-      setProyek(data.data || []);
+
+      // Transform data jika perlu untuk memastikan struktur yang tepat
+      const proyekData =
+        data.data?.map((p: any) => ({
+          ...p,
+          fase: p.fase || [], // Pastikan fase selalu ada, minimal array kosong
+        })) || [];
+
+      setProyek(proyekData);
       setStats({
         proyekAktif:
-          data.data?.filter((p: any) => p.status !== "SELESAI").length || 0,
+          proyekData.filter((p: any) => p.status !== "SELESAI").length || 0,
         totalProduk: 0, // Belum ada API untuk produk
       });
       setAktivitasTerbaru([]); // Belum ada API untuk aktivitas
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching data:", error);
+      // Set data kosong jika error
+      setProyek([]);
+      setStats({ proyekAktif: 0, totalProduk: 0 });
     } finally {
       setIsLoading(false);
     }
@@ -56,7 +73,7 @@ export default function DashboardOverviewPage() {
 
   // Ambil data saat komponen pertama kali dimuat
   useEffect(() => {
-    fetchData(); // Aktifkan fetch data
+    fetchData();
   }, []);
 
   const handleSuccess = () => {
@@ -66,35 +83,42 @@ export default function DashboardOverviewPage() {
 
   // Tampilan loading
   if (isLoading) {
-    return <div>Memuat data dashboard...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 mx-auto"></div>
+          <p className="mt-2 text-slate-600">Memuat data dashboard...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <>
       <div className="space-y-8">
-        {/* Grid untuk Kartu Statistik (Sekarang dengan data dari state) */}
+        {/* Grid untuk Kartu Statistik */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <StatCard
             title="Proyek Aktif"
-            value={stats.proyekAktif} // --> Gunakan data dari state
+            value={stats.proyekAktif}
             icon={Leaf}
             colorClass="bg-green-500"
           />
           <StatCard
             title="Total Produk"
-            value={stats.totalProduk} // --> Gunakan data dari state
+            value={stats.totalProduk}
             icon={Package}
             colorClass="bg-sky-500"
           />
           <StatCard
             title="Pengunjung Profil (30 hari)"
-            value="-" // --> Data ini perlu integrasi analytics, kita kosongkan dulu
+            value="-"
             icon={BarChart3}
             colorClass="bg-amber-500"
           />
         </div>
 
-        {/* Area Aktivitas Terbaru (Sekarang dengan data dari state) */}
+        {/* Area Aktivitas Terbaru */}
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-800">
             Aktivitas Proyek Terbaru
@@ -123,22 +147,22 @@ export default function DashboardOverviewPage() {
           )}
         </div>
 
-        {/* --- INI BAGIAN PENTINGNYA --- */}
+        {/* Header Section dengan Tombol Buat Proyek */}
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold text-slate-800">Proyek Anda</h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-semibold"
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-semibold transition-colors"
           >
             + Buat Proyek Baru
           </button>
         </div>
 
-        {/* Tampilkan semua proyek, sekarang dengan data dari state */}
+        {/* Tampilkan semua proyek */}
         <DisplayProyek proyek={proyek} />
       </div>
 
-      {/* Tampilkan modal jika isModalOpen true */}
+      {/* Modal Form Proyek Baru */}
       {isModalOpen && (
         <FormProyekBaru
           onClose={() => setIsModalOpen(false)}
