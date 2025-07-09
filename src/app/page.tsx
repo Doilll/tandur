@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -6,12 +5,12 @@ import { ArrowRight, Leaf, ShieldCheck, Users, Search } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import FarmerCard from "@/components/FarmerCard";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 export default async function HomePage() {
-
   const res = await fetch("http://localhost:3000/api/produk", {
     cache: "no-store",
-  })
+  });
   const data = await res.json();
   const produks = data.data || [];
 
@@ -34,7 +33,8 @@ export default async function HomePage() {
 
   return (
     <div className="bg-white">
-      
+      <Navbar />
+
       <main>
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
@@ -71,7 +71,12 @@ export default async function HomePage() {
                   Jelajahi Hasil Tani <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="secondary" className="hover:border" asChild>
+              <Button
+                size="lg"
+                variant="secondary"
+                className="hover:border"
+                asChild
+              >
                 <Link href="#tentang">Pelajari Lebih Lanjut</Link>
               </Button>
             </div>

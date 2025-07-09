@@ -1,3 +1,5 @@
+// app/api/proyek/route.ts
+
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth"; // pastikan file authOptions udah di-setup
@@ -9,7 +11,7 @@ export async function POST(req: Request) {
     if (!session || session.user.role !== "PETANI") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    
+
     const body = await req.json();
     const { namaProyek, deskripsi, lokasiLahan } = body;
 

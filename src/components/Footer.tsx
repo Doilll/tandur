@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Leaf } from "lucide-react";
 
-
 const Footer = () => (
   <footer
     className="bg-slate-900 text-white"
@@ -75,4 +74,3 @@ const Footer = () => (
 );
 
 export default Footer;
-

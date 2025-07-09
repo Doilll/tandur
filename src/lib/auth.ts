@@ -3,7 +3,8 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import prisma from "./prisma"; // FIX: Menggunakan default import
+import prisma from "./prisma";
+import { Role } from "@prisma/client"; // Pastikan Role di-import jika belum
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -20,19 +21,23 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    // FIX: Tidak perlu lagi @ts-ignore karena tipe sudah dideklarasikan
     async jwt({ token, user }) {
+      // Saat user login, objek 'user' dari database tersedia.
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        // ---> TAMBAHKAN BARIS INI <---
+        token.username = user.username; // Ambil username dari DB dan masukkan ke token
       }
       return token;
     },
-    // FIX: Tidak perlu lagi @ts-ignore
+
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id;
-        session.user.role = token.role;
+        session.user.id = token.id as string;
+        session.user.role = token.role as Role;
+        // ---> TAMBAHKAN BARIS INI <---
+        session.user.username = token.username as string; // Ambil username dari token dan masukkan ke session
       }
       return session;
     },
