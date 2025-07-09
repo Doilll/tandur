@@ -1,88 +1,74 @@
 // src/components/DisplayProyek.tsx
 
-"use client";
+// 1. Import tipe data yang relevan dari Prisma
+import { ProyekTani, StatusProyek } from "@prisma/client";
+import Link from "next/link";
 
-import React, { useState } from "react";
-import DisplaySemuaProyek from "./DisplaySemuaProyek"; // Kita akan buat ini selanjutnya
+// 2. Definisikan tipe untuk props komponen ini
+// Ini akan memberitahu TypeScript bahwa DisplayProyek akan menerima sebuah
+// properti 'proyek' yang isinya adalah array dari ProyekTani.
+interface DisplayProyekProps {
+  proyek: ProyekTani[];
+}
 
-const DisplayProyek = () => {
-  const [lihatSemua, setLihatSemua] = useState(false);
-
-  // Ambil beberapa gambar untuk pratinjau
-  const previewImages = [
-    "/proyek/1.jpg",
-    "/proyek/2.jpg",
-    "/proyek/3.jpg",
-    "/proyek/4.jpg",
-    "/proyek/5.jpg",
-  ];
-
-  const handleOpenDetail = () => {
-    setLihatSemua(true);
-    // Mencegah scroll di body saat popup detail terbuka
-    document.body.style.overflow = "hidden";
-  };
-
-  const handleCloseDetail = () => {
-    setLihatSemua(false);
-    // Mengembalikan fungsi scroll di body
-    document.body.style.overflow = "auto";
-  };
-
-  return (
-    <>
-      {/* Kartu Pratinjau */}
-      <div
-        onClick={handleOpenDetail}
-        className="min-w-full h-[50vh] rounded-xl bg-white grid grid-cols-3 gap-1 cursor-pointer group relative overflow-hidden"
-      >
-        {/* Kolom 1 */}
-        <div className="w-full h-full">
-          <img
-            src={previewImages[0]}
-            alt="Proyek 1"
-            className="w-full h-full object-cover rounded-l-xl"
-          />
-        </div>
-        {/* Kolom 2 */}
-        <div className="flex flex-col gap-1">
-          <img
-            src={previewImages[1]}
-            alt="Proyek 2"
-            className="w-full h-1/2 object-cover"
-          />
-          <img
-            src={previewImages[2]}
-            alt="Proyek 3"
-            className="w-full h-1/2 object-cover"
-          />
-        </div>
-        {/* Kolom 3 */}
-        <div className="flex flex-col gap-1">
-          <img
-            src={previewImages[3]}
-            alt="Proyek 4"
-            className="w-full h-1/2 object-cover rounded-tr-xl"
-          />
-          <img
-            src={previewImages[4]}
-            alt="Proyek 5"
-            className="w-full h-1/2 object-cover rounded-br-xl"
-          />
-        </div>
-
-        {/* Overlay dan Tombol "Lihat Semua Foto" */}
-        <div className="absolute bottom-4 right-4">
-          <span className="bg-black bg-opacity-75 text-white font-bold p-2 px-4 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            Lihat Semua Foto
-          </span>
-        </div>
+// 3. Terima props 'proyek' di dalam parameter komponen
+export default function DisplayProyek({ proyek }: DisplayProyekProps) {
+  // Jika tidak ada proyek, tampilkan pesan
+  if (proyek.length === 0) {
+    return (
+      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm text-center">
+        <h2 className="text-lg font-semibold text-slate-800">
+          Daftar Proyek Anda
+        </h2>
+        <p className="mt-2 text-slate-500">
+          Anda belum memiliki proyek. Mulai buat proyek pertama Anda!
+        </p>
+        <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+          + Buat Proyek Baru
+        </button>
       </div>
+    );
+  }
 
-      {/* Tampilkan Halaman Detail jika `lihatSemua` adalah true */}
-      {lihatSemua && <DisplaySemuaProyek onClose={handleCloseDetail} />}
-    </>
+  // Jika ada proyek, tampilkan dalam bentuk daftar/grid
+  return (
+    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 className="text-lg font-semibold text-slate-800 mb-4">
+        Semua Proyek Anda
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {proyek.map((item) => (
+          <div
+            key={item.id}
+            className="border rounded-lg p-4 flex flex-col justify-between"
+          >
+            <div>
+              <h3 className="font-bold text-lg text-slate-900">
+                {item.namaProyek}
+              </h3>
+              <p className="text-sm text-slate-600 mt-1 line-clamp-3">
+                {item.deskripsi}
+              </p>
+            </div>
+            <div className="mt-4">
+              <span
+                className={`text-xs font-medium px-2 py-1 rounded-full ${
+                  item.status === "PANEN"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-yellow-100 text-yellow-800"
+                }`}
+              >
+                {item.status}
+              </span>
+              <Link href={`/dashboard/proyek/${item.id}`}>
+                <p className="block w-full text-center mt-3 bg-slate-800 text-white py-2 rounded-md hover:bg-slate-900 transition">
+                  Lihat Detail
+                </p>
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
-};
-
-export default DisplayProyek;
+}
