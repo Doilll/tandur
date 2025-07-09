@@ -6,7 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Leaf, Package, Settings, LogOut } from "lucide-react";
 
-// Definisikan tipe data untuk props user agar lebih rapi
 type UserProps = {
   user: {
     name: string;
