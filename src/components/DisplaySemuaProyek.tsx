@@ -3,8 +3,22 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { proyekKacang } from "../data/proyekdata";
-import PopupGambar from "./PopupGambar";
+import PopupGambar from "./PopupGambar"; // Asumsi komponen ini sudah ada
+
+// 1. Import tipe data dari Prisma Client
+// Ini akan menggantikan interface DataProyek dan FaseProyek
+import { ProyekTani, FaseProyek } from "@prisma/client";
+
+// 2. Gabungkan tipe data untuk props
+// Kita butuh data ProyekTani yang di dalamnya sudah ada relasi 'fase'
+type ProyekWithFase = ProyekTani & {
+  fase: FaseProyek[];
+};
+
+interface DisplaySemuaProyekProps {
+  proyek: ProyekWithFase; // Komponen ini sekarang menerima satu objek proyek
+  onClose: () => void;
+}
 
 const ImageGrid = ({
   images,
@@ -13,15 +27,14 @@ const ImageGrid = ({
   images: string[];
   onImageClick: (img: string) => void;
 }) => {
+  // ... (Tidak ada perubahan di komponen ImageGrid, sudah bagus)
   const gridClasses = {
     1: "grid-cols-1",
     2: "grid-cols-2",
     3: "grid-cols-2",
     4: "grid-cols-2",
   };
-
   const count = Math.min(images.length, 4);
-
   return (
     <div
       className={`grid ${gridClasses[count as keyof typeof gridClasses]} gap-4`}
@@ -30,9 +43,7 @@ const ImageGrid = ({
         <div
           key={img}
           className={`
-            ${
-              count === 3 && index === 0 ? "col-span-2" : ""
-            } /* Membuat gambar pertama lebih besar jika ada 3 */
+            ${count === 3 && index === 0 ? "col-span-2" : ""}
             cursor-pointer overflow-hidden rounded-lg group
           `}
           onClick={() => onImageClick(img)}
@@ -48,34 +59,39 @@ const ImageGrid = ({
   );
 };
 
-const DisplaySemuaProyek = ({ onClose }: { onClose: () => void }) => {
-  const data = proyekKacang;
+// 3. Ubah nama parameter 'onClose' dan 'proyek'
+export default function DisplaySemuaProyek({
+  proyek,
+  onClose,
+}: DisplaySemuaProyekProps) {
+  // 4. Hapus data dummy, gunakan data dari props
+  // const data = proyekKacang; // HAPUS INI
+  const data = proyek; // GUNAKAN INI
 
   const [popupState, setPopupState] = useState<{
     isOpen: boolean;
     index: number;
   }>({ isOpen: false, index: 0 });
 
+  // useMemo sekarang bergantung pada props 'data'
   const semuaGambar = useMemo(() => data.fase.flatMap((f) => f.gambar), [data]);
 
+  // Sisa logic (handleImageClick, handleClosePopup, dll.) tidak perlu diubah, sudah sangat baik.
   const handleImageClick = (imageUrl: string) => {
     const imageIndex = semuaGambar.findIndex((img) => img === imageUrl);
     if (imageIndex !== -1) {
       setPopupState({ isOpen: true, index: imageIndex });
     }
   };
-
   const handleClosePopup = () => {
     setPopupState({ isOpen: false, index: 0 });
   };
-
   const handleNextImage = () => {
     setPopupState((prev) => ({
       ...prev,
       index: Math.min(prev.index + 1, semuaGambar.length - 1),
     }));
   };
-
   const handlePrevImage = () => {
     setPopupState((prev) => ({ ...prev, index: Math.max(prev.index - 1, 0) }));
   };
@@ -83,67 +99,71 @@ const DisplaySemuaProyek = ({ onClose }: { onClose: () => void }) => {
   return (
     <div className="fixed inset-0 bg-white z-40 overflow-y-auto animate-fade-in">
       <div className="container mx-auto px-4 py-8">
-        {/* Header dengan Judul dan Tombol Close */}
         <div className="sticky top-0 bg-white/80 backdrop-blur-sm py-4 mb-8 z-10 flex items-center">
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-900 text-3xl mr-10"
           >
-            ×
+            {" "}
+            ×{" "}
           </button>
+          {/* 5. Ganti judul dengan data dinamis */}
           <h1 className="text-2xl md:text-xl font-bold text-gray-800">
-            {data.judul}
+            {data.namaProyek}
           </h1>
         </div>
 
         {/* Navigasi Fase (Thumbnail) */}
-        <nav className="mb-12 mx-auto">
-          <ul className="flex flex-wrap gap-2 item-start">
-            {data.fase.map((fase) => (
-              <li key={fase.id}>
-                <a href={`#${fase.id}`} className="block text-center group">
-                  <div className="w-24 h-24 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-green-500 transition-all">
-                    <img
-                      src={fase.gambar[0]}
-                      alt={fase.nama}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <span className="mt-2 inline-block text-sm font-semibold text-gray-600 group-hover:text-green-600">
-                    {fase.nama}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {data.fase && data.fase.length > 0 && (
+          <nav className="mb-12 mx-auto">
+            <ul className="flex flex-wrap gap-2 item-start">
+              {/* 6. Gunakan field yang benar dari Prisma ('slug' dan 'gambar') */}
+              {data.fase.map((fase) => (
+                <li key={fase.id}>
+                  <a href={`#${fase.slug}`} className="block text-center group">
+                    <div className="w-24 h-24 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-green-500 transition-all">
+                      {fase.gambar.length > 0 && (
+                        <img
+                          src={fase.gambar[0]}
+                          alt={fase.nama}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+                    <span className="mt-2 inline-block text-sm font-semibold text-gray-600 group-hover:text-green-600">
+                      {fase.nama}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
 
         {/* Konten Utama: Cerita dan Galeri per Fase */}
         <main className="space-y-16">
-          {data.fase.map((fase) => (
-            <section key={fase.id} id={fase.id} className="scroll-mt-24">
-              <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
-                {/* Kolom Kiri: Cerita */}
-                <div className="prose lg:prose-lg max-w-none">
-                  <h2 className="text-2xl font-bold text-green-700">
-                    {fase.nama}
-                  </h2>
-                  <p>{fase.cerita}</p>
+          {data.fase &&
+            data.fase.map((fase) => (
+              <section key={fase.id} id={fase.slug} className="scroll-mt-24">
+                <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
+                  <div className="prose lg:prose-lg max-w-none">
+                    <h2 className="text-2xl font-bold text-green-700">
+                      {fase.nama}
+                    </h2>
+                    <p>{fase.cerita}</p>
+                  </div>
+                  <div>
+                    <ImageGrid
+                      images={fase.gambar}
+                      onImageClick={handleImageClick}
+                    />
+                  </div>
                 </div>
-                {/* Kolom Kanan: Galeri Gambar */}
-                <div>
-                  <ImageGrid
-                    images={fase.gambar}
-                    onImageClick={handleImageClick}
-                  />
-                </div>
-              </div>
-            </section>
-          ))}
+              </section>
+            ))}
         </main>
       </div>
 
-      {/* Panggil PopupGambar jika state-nya true */}
       {popupState.isOpen && (
         <PopupGambar
           images={semuaGambar}
@@ -155,6 +175,4 @@ const DisplaySemuaProyek = ({ onClose }: { onClose: () => void }) => {
       )}
     </div>
   );
-};
-
-export default DisplaySemuaProyek;
+}
