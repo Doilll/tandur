@@ -1,35 +1,50 @@
-// app/api/produk/[id]/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
-  const produk = await prisma.produk.findUnique({
-    where: {
-      id: id,
-    },
-  });
-  if (!produk) {
-    return NextResponse.json(
-      {
-        message: "Produk tidak ditemukan",
-      },
-      { status: 404 }
-    );
-  }
-  return NextResponse.json(
-    {
-      message: "Berhasil mengambil data produk",
-      data: produk,
-    },
-    { status: 200 }
-  );
+
+export async function GET(req: NextRequest, { params }: { params : {id: string}}) {
+    const { id } = params;
+    const produk = await prisma.produk.findUnique({
+        where: {
+            id: id,
+        },
+        select: {
+            id: true,
+            namaProduk: true,
+            deskripsi: true,
+            harga: true,
+            fotoUrl: true,
+            unit: true,
+            stokTersedia: true,
+            proyekTani: {
+                select: {
+                    id: true,
+                    namaProyek: true,
+                    lokasiLahan: true,
+                    petani: {
+                        select: {
+                            name: true,
+                            lokasi: true,
+                            linkWhatsapp: true,
+                        },
+                    },
+                },
+            },
+        },
+    })
+    if (!produk) {
+        return NextResponse.json({
+            message: "Produk tidak ditemukan",
+        }, { status: 404 });
+    }
+    return NextResponse.json({
+        message: "Berhasil mengambil data produk",
+        data: produk,
+    }, { status: 200 });
+
 }
 
 export async function PUT(
