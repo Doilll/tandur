@@ -68,7 +68,10 @@ const DisplaySemuaProyek = ({ proyek, onClose }: DisplaySemuaProyekProps) => {
     index: number;
   }>({ isOpen: false, index: 0 });
 
-  const semuaGambar = useMemo(() => data.fase.flatMap((f) => f.gambar), [data]);
+  const semuaGambar = useMemo(() => {
+    if (!data?.fase) return []; // <-- ⛑️ guard dulu
+    return data.fase.flatMap((f) => f.gambar || []);
+  }, [data]);
 
   const handleImageClick = (imageUrl: string) => {
     const imageIndex = semuaGambar.findIndex((img) => img === imageUrl);

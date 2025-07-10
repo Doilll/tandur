@@ -22,6 +22,7 @@ export async function GET(
           },
         },
         produk: true,
+        fase: true
       },
     });
 
@@ -32,7 +33,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ proyek }, { status: 200 });
+    return NextResponse.json( proyek, { status: 200 });
   } catch (error) {
     console.error("Error GET /api/proyek/[id]:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
