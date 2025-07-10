@@ -1,204 +1,177 @@
-// src/components/DisplayProyek.tsx
+// src/components/DisplaySemuaProyek.tsx
 
 "use client";
 
-import React, { useState } from "react";
-import DisplaySemuaProyek from "./DisplaySemuaProyek";
+import React, { useState, useMemo } from "react";
+import PopupGambar from "./PopupGambar";
+
+// Import tipe data dari Prisma Client
 import { ProyekTani, FaseProyek } from "@prisma/client";
-import Link from "next/link";
 
-// Tipe untuk ProyekTani yang sudah include relasi fase (dengan gambar)
-type ProyekWithFaseGambar = ProyekTani & {
-  fase: { gambar: string[] }[];
-};
-
-// Tipe untuk ProyekTani lengkap dengan semua data fase
-type ProyekWithFaseLengkap = ProyekTani & {
+// Gabungkan tipe data untuk props
+type ProyekWithFase = ProyekTani & {
   fase: FaseProyek[];
 };
 
-// Props untuk komponen utama
-interface DisplayProyekProps {
-  proyek: ProyekWithFaseGambar[]; // Menerima proyek dengan fase gambar
+interface DisplaySemuaProyekProps {
+  proyek: ProyekWithFase;
+  onClose: () => void;
 }
 
-// Sub-komponen untuk satu kartu pratinjau
-const KartuProyekPratinjau = ({ proyek }: { proyek: ProyekWithFaseGambar }) => {
-  const [showDetail, setShowDetail] = useState(false);
-  const [detailProyekData, setDetailProyekData] =
-    useState<ProyekWithFaseLengkap | null>(null);
-
-  // Logika untuk mendapatkan gambar pratinjau
-  const getPreviewImages = () => {
-    const defaultImages = [
-      "/proyek/1.jpg",
-      "/proyek/2.jpg",
-      "/proyek/3.jpg",
-      "/proyek/4.jpg",
-      "/proyek/5.jpg",
-    ];
-
-    // Cek jika proyek punya fase dan fase pertama punya gambar
-    if (
-      proyek.fase &&
-      proyek.fase.length > 0 &&
-      proyek.fase[0].gambar.length > 0
-    ) {
-      const gambarAsli = proyek.fase[0].gambar;
-      // Gabungkan gambar asli dengan gambar default untuk memastikan selalu ada 5 gambar
-      return [...gambarAsli, ...defaultImages].slice(0, 5);
-    }
-
-    // Jika tidak ada gambar sama sekali, pakai default
-    return defaultImages;
+const ImageGrid = ({
+  images,
+  onImageClick,
+}: {
+  images: string[];
+  onImageClick: (img: string) => void;
+}) => {
+  const gridClasses = {
+    1: "grid-cols-1",
+    2: "grid-cols-2",
+    3: "grid-cols-2",
+    4: "grid-cols-2",
   };
 
-  const previewImages = getPreviewImages();
-
-  const handleOpenDetail = async () => {
-    // Saat diklik, fetch data lengkap (termasuk fase) untuk proyek ini
-    try {
-      const res = await fetch(`/api/proyek/${proyek.id}`);
-      if (!res.ok) throw new Error("Gagal mengambil detail proyek");
-      const data: ProyekWithFaseLengkap = await res.json();
-      setDetailProyekData(data);
-      setShowDetail(true);
-      document.body.style.overflow = "hidden";
-    } catch (error) {
-      console.error("Error fetching project details:", error);
-      alert("Tidak dapat memuat detail proyek.");
-    }
-  };
-
-  const handleCloseDetail = () => {
-    setShowDetail(false);
-    setDetailProyekData(null);
-    document.body.style.overflow = "auto";
-  };
+  const count = Math.min(images.length, 4);
 
   return (
-    <>
-      <div className="border rounded-xl p-4 flex flex-col justify-between bg-white shadow-sm hover:shadow-lg transition-shadow">
-        <div>
-          {/* Layout Grid Gambar Pratinjau - Sesuai dengan desain yang diminta */}
-          <div
-            onClick={handleOpenDetail}
-            className="min-w-full h-[50vh] rounded-xl bg-white grid grid-cols-3 gap-1 cursor-pointer group relative overflow-hidden mb-4"
-          >
-            {/* Kolom 1 */}
-            <div className="w-full h-full">
-              <img
-                src={previewImages[0]}
-                alt="Proyek 1"
-                className="w-full h-full object-cover rounded-l-xl"
-                onError={(e) => {
-                  e.currentTarget.src = "/proyek/1.jpg";
-                }}
-              />
-            </div>
-
-            {/* Kolom 2 */}
-            <div className="flex flex-col gap-1">
-              <img
-                src={previewImages[1]}
-                alt="Proyek 2"
-                className="w-full h-1/2 object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = "/proyek/2.jpg";
-                }}
-              />
-              <img
-                src={previewImages[2]}
-                alt="Proyek 3"
-                className="w-full h-1/2 object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = "/proyek/3.jpg";
-                }}
-              />
-            </div>
-
-            {/* Kolom 3 */}
-            <div className="flex flex-col gap-1">
-              <img
-                src={previewImages[3]}
-                alt="Proyek 4"
-                className="w-full h-1/2 object-cover rounded-tr-xl"
-                onError={(e) => {
-                  e.currentTarget.src = "/proyek/4.jpg";
-                }}
-              />
-              <img
-                src={previewImages[4]}
-                alt="Proyek 5"
-                className="w-full h-1/2 object-cover rounded-br-xl"
-                onError={(e) => {
-                  e.currentTarget.src = "/proyek/5.jpg";
-                }}
-              />
-            </div>
-
-            {/* Overlay dan Tombol "Lihat Semua Foto" */}
-            <div className="absolute bottom-4 right-4">
-              <span className="bg-black bg-opacity-75 text-white font-bold p-2 px-4 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                Lihat Semua Foto
-              </span>
-            </div>
-          </div>
-
-          {/* Info Teks Proyek */}
-          <h3 className="font-bold text-lg text-slate-900">
-            {proyek.namaProyek}
-          </h3>
-          <p className="text-sm text-slate-600 mt-1 line-clamp-2">
-            {proyek.deskripsi}
-          </p>
+    <div
+      className={`grid ${gridClasses[count as keyof typeof gridClasses]} gap-4`}
+    >
+      {images.map((img, index) => (
+        <div
+          key={img}
+          className={`
+            ${
+              count === 3 && index === 0 ? "col-span-2" : ""
+            } /* Membuat gambar pertama lebih besar jika ada 3 */
+            cursor-pointer overflow-hidden rounded-lg group
+          `}
+          onClick={() => onImageClick(img)}
+        >
+          <img
+            src={img}
+            alt={`Gambar fase ${index + 1}`}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
         </div>
-
-        <div className="mt-4">
-          <span
-            className={`text-xs font-medium px-2 py-1 rounded-full ${
-              proyek.status === "PANEN"
-                ? "bg-green-100 text-green-800"
-                : "bg-yellow-100 text-yellow-800"
-            }`}
-          >
-            {proyek.status}
-          </span>
-          <Link
-            href={`/dashboard/proyek/${proyek.id}/edit`}
-            className="block w-full text-center mt-3 bg-slate-800 text-white py-2 rounded-md hover:bg-slate-900 transition"
-          >
-            Kelola Proyek
-          </Link>
-        </div>
-      </div>
-
-      {/* Tampilkan Halaman Detail jika `showDetail` dan data sudah ada */}
-      {showDetail && detailProyekData && (
-        <DisplaySemuaProyek
-          proyek={detailProyekData}
-          onClose={handleCloseDetail}
-        />
-      )}
-    </>
-  );
-};
-
-// Komponen Utama: DisplayProyek
-export default function DisplayProyek({ proyek }: DisplayProyekProps) {
-  if (proyek.length === 0) {
-    return (
-      <div className="text-center py-10">
-        <p className="text-slate-500">Anda belum memiliki proyek.</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {proyek.map((item) => (
-        <KartuProyekPratinjau key={item.id} proyek={item} />
       ))}
     </div>
   );
-}
+};
+
+const DisplayProyek = ({ proyek, onClose }: DisplaySemuaProyekProps) => {
+  const data = proyek;
+
+  const [popupState, setPopupState] = useState<{
+    isOpen: boolean;
+    index: number;
+  }>({ isOpen: false, index: 0 });
+
+  const semuaGambar = useMemo(() => {
+    if (!data?.fase) return []; // <-- ⛑️ guard dulu
+    return data.fase.flatMap((f) => f.gambar || []);
+  }, [data]);
+
+  const handleImageClick = (imageUrl: string) => {
+    const imageIndex = semuaGambar.findIndex((img) => img === imageUrl);
+    if (imageIndex !== -1) {
+      setPopupState({ isOpen: true, index: imageIndex });
+    }
+  };
+
+  const handleClosePopup = () => {
+    setPopupState({ isOpen: false, index: 0 });
+  };
+
+  const handleNextImage = () => {
+    setPopupState((prev) => ({
+      ...prev,
+      index: Math.min(prev.index + 1, semuaGambar.length - 1),
+    }));
+  };
+
+  const handlePrevImage = () => {
+    setPopupState((prev) => ({ ...prev, index: Math.max(prev.index - 1, 0) }));
+  };
+
+  return (
+    <div className="fixed inset-0 bg-white z-40 overflow-y-auto animate-fade-in">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header dengan Judul dan Tombol Close */}
+        <div className="sticky top-0 bg-white/80 backdrop-blur-sm py-4 mb-8 z-10 flex items-center">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-900 text-3xl mr-10"
+          >
+            ×
+          </button>
+          <h1 className="text-2xl md:text-xl font-bold text-gray-800">
+            {data.namaProyek}
+          </h1>
+        </div>
+
+        {/* Navigasi Fase (Thumbnail) */}
+        <nav className="mb-12 mx-auto">
+          <ul className="flex flex-wrap gap-2 item-start">
+            {data.fase.map((fase) => (
+              <li key={fase.id}>
+                <a href={`#${fase.slug}`} className="block text-center group">
+                  <div className="w-24 h-24 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-green-500 transition-all">
+                    {fase.gambar.length > 0 && (
+                      <img
+                        src={fase.gambar[0]}
+                        alt={fase.nama}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <span className="mt-2 inline-block text-sm font-semibold text-gray-600 group-hover:text-green-600">
+                    {fase.nama}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Konten Utama: Cerita dan Galeri per Fase */}
+        <main className="space-y-16">
+          {data.fase.map((fase) => (
+            <section key={fase.id} id={fase.slug} className="scroll-mt-24">
+              <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
+                {/* Kolom Kiri: Cerita */}
+                <div className="prose lg:prose-lg max-w-none">
+                  <h2 className="text-2xl font-bold text-green-700">
+                    {fase.nama}
+                  </h2>
+                  <p>{fase.cerita}</p>
+                </div>
+                {/* Kolom Kanan: Galeri Gambar */}
+                <div>
+                  <ImageGrid
+                    images={fase.gambar}
+                    onImageClick={handleImageClick}
+                  />
+                </div>
+              </div>
+            </section>
+          ))}
+        </main>
+      </div>
+
+      {/* Panggil PopupGambar jika state-nya true */}
+      {popupState.isOpen && (
+        <PopupGambar
+          images={semuaGambar}
+          currentIndex={popupState.index}
+          onClose={handleClosePopup}
+          onNext={handleNextImage}
+          onPrev={handlePrevImage}
+        />
+      )}
+    </div>
+  );
+};
+
+export default DisplayProyek;
