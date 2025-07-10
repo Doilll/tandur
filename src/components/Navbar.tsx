@@ -6,14 +6,18 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import AuthNav from "@/components/AuthNav";
 import { SessionProvider } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 // Komponen untuk menampilkan status otentikasi
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
+    if (!isHomePage) return;
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
@@ -23,17 +27,17 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomePage]);
 
-  const navTextColor = isScrolled ? "text-slate-900" : "text-white";
+  const navTextColor = pathname === "/" && !isScrolled ? "text-white" : "text-slate-900";
 
   return (
     <SessionProvider>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? "bg-white/80 shadow-md backdrop-blur-sm"
-            : "bg-transparent"
+         isHomePage && !isScrolled
+      ? "bg-transparent"
+      : "bg-white/80 shadow-md backdrop-blur-sm"
         }`}
       >
         <div className="container mx-auto px-4">
@@ -86,7 +90,7 @@ const Navbar = () => {
 
             {/* Desktop Auth Section */}
             <div className="hidden md:flex">
-              <AuthNav isScrolled={isScrolled} />
+              <AuthNav isScrolled={isScrolled} isHomePage={isHomePage} />
             </div>
 
             {/* Mobile Menu Button */}

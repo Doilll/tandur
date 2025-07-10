@@ -86,7 +86,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET method untuk mengambil semua proyek milik petani
 export async function GET(request: NextRequest) {
   try {
     // 1. Cek Sesi Pengguna

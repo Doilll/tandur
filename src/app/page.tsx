@@ -6,13 +6,11 @@ import ProductCard from "@/components/ProductCard";
 import FarmerCard from "@/components/FarmerCard";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import { getAllProduk } from "@/lib/ProductService";
 
 export default async function HomePage() {
-  const res = await fetch("http://localhost:3000/api/produk", {
-    cache: "no-store",
-  });
-  const data = await res.json();
-  const produks = data.data || [];
+  
+  const produks = await getAllProduk();
 
   const dummyPetani = [
     {
@@ -34,7 +32,6 @@ export default async function HomePage() {
   return (
     <div className="bg-white">
       <Navbar />
-
       <main>
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
@@ -155,7 +152,7 @@ export default async function HomePage() {
               <input
                 type="text"
                 placeholder="Cari produk..."
-                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+                className="w-full pl-12 pr-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500 transition bg-white shadow-sm"
               />
             </div>
             <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -165,7 +162,7 @@ export default async function HomePage() {
             </div>
             <div className="mt-12 text-center">
               <Button size="lg" variant="outline" asChild>
-                <Link href="/semua-produk">Lihat Semua Produk</Link>
+                <Link href="/produk">Lihat Semua Produk</Link>
               </Button>
             </div>
           </div>

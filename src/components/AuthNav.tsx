@@ -17,9 +17,11 @@ import { User, LayoutDashboard, LogOut } from "lucide-react";
 const AuthNav = ({
   isScrolled,
   isMobile = false,
+  isHomePage = false,
 }: {
   isScrolled: boolean;
   isMobile?: boolean;
+  isHomePage?: boolean;
 }) => {
   const { data: session, status } = useSession();
   const navTextColor = isScrolled ? "text-slate-900" : "text-white";
@@ -132,7 +134,7 @@ const AuthNav = ({
         <Link
           href="/sign-in"
           className={`px-4 py-2 rounded-4xl font-medium transition-colors ${
-            isScrolled
+            !isHomePage || isScrolled
               ? "bg-transparent text-black border-2 hover:border-green-600"
               : "bg-transparent bg-opacity-20 text-white hover:bg-opacity-40 border-2 border-green-600 hover:border-green-700"
           }`}
@@ -144,7 +146,7 @@ const AuthNav = ({
         <Link
           href="/sign-in"
           className={`px-4 py-2 rounded-full font-medium transition-colors ${
-            isScrolled
+            !isHomePage || isScrolled
               ? "bg-black text-white hover:bg-green-600"
               : "bg-green-600 bg-opacity-20 hover:bg-opacity-40 hover:bg-green-800 text-white"
           }`}
