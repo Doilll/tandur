@@ -10,7 +10,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
-      // Nanti kalau ada domain lain (misal dari Cloudinary/S3), tambahkan di sini
+      {
+        protocol: "https",
+        hostname: "placehold.co"
+      }
     ],
   },
 };

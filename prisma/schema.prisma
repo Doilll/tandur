@@ -76,7 +76,7 @@ model ProyekTani {
   petani      User            @relation(fields: [petaniId], references: [id], onDelete: Cascade)
   updates     FarmingUpdate[]
   produk      Produk[]
-fase        FaseProyek[]
+  fase        FaseProyek[]
   @@index([petaniId])
 }
 
