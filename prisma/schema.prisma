@@ -92,20 +92,18 @@ model FarmingUpdate {
   @@index([proyekTaniId])
 }
 
-// TAMBAHKAN MODEL BARU INI
+
 
 model FaseProyek {
   id           String   @id @default(cuid())
-  nama         String   // -> "Bulan Pertama: Penanaman Benih"
-  slug         String   // -> "bulan-1" (untuk anchor link, dll)
-  cerita       String   // -> Teks cerita untuk fase ini
-  gambar       String[] // -> Array path gambar
-  urutan       Int      // -> Untuk mengurutkan fase (1, 2, 3, ...)
-
+  nama         String   
+  slug         String   
+  cerita       String   
+  gambar       String[]
+  urutan       Int      
   proyekTaniId String
   proyekTani   ProyekTani @relation(fields: [proyekTaniId], references: [id], onDelete: Cascade)
-
-  @@unique([proyekTaniId, slug]) // Pastikan slug unik per proyek
+  @@unique([proyekTaniId, slug]) 
   @@index([proyekTaniId])
 }
 

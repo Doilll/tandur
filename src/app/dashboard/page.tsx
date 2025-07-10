@@ -4,8 +4,7 @@ import { Leaf, Package, BarChart3 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ProyekTani } from "@prisma/client";
 import FormProyekBaru from "@/components/FormProyekBaru";
-import DisplaySemuaProyek from "@/components/DisplaySemuaProyek";
-
+import DisplaySemuaProyek from "@/components/DisplayProyekOverview";
 
 // Definisikan tipe yang sesuai dengan yang diharapkan DisplayProyek
 type ProyekWithFaseGambar = ProyekTani & {
@@ -28,7 +27,6 @@ const StatCard = ({ title, value, icon: Icon, colorClass }: any) => (
 );
 
 export default function DashboardOverviewPage() {
-
   // State untuk data dan modal - gunakan tipe yang tepat
   const [proyek, setProyek] = useState<ProyekWithFaseGambar[]>([]);
   const [stats, setStats] = useState({ proyekAktif: 0, totalProduk: 0 });
