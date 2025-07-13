@@ -5,7 +5,7 @@ const FarmerCard = ({ farmer }: { farmer: any }) => (
   <div className="rounded-lg border bg-white p-6 text-center shadow-sm">
     <div className="relative mx-auto mb-4 h-24 w-24">
       <Image
-        src={farmer.imageUrl}
+        src={farmer.image}
         alt={farmer.name}
         fill
         style={{ objectFit: "cover" }}

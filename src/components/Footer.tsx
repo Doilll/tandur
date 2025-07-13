@@ -6,7 +6,7 @@ const Footer = () => (
     className="bg-slate-900 text-white"
     style={{ fontFamily: "mona-sans" }}
   >
-    <div className="container mx-auto px-4 py-12">
+    <div className="w-full px-4 py-12">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="col-span-1 md:col-span-2">
           <div className="flex items-center space-x-2 mb-4">
@@ -67,7 +67,7 @@ const Footer = () => (
         </div>
       </div>
       <div className="border-t border-slate-800 mt-8 pt-8 text-center text-slate-400">
-        <p>&copy; 2024 Tandur. Semua hak dilindungi.</p>
+        <p>&copy; 2025 Tandur. Semua hak dilindungi.</p>
       </div>
     </div>
   </footer>

@@ -40,7 +40,7 @@ const Navbar = () => {
       : "bg-white/80 shadow-md backdrop-blur-sm"
         }`}
       >
-        <div className="container mx-auto px-4">
+        <div className="w-full px-4">
           <div
             className="flex items-center justify-between h-20"
             style={{ fontFamily: "mona-sans" }}
@@ -53,6 +53,7 @@ const Navbar = () => {
                   alt="Tandur Logo"
                   width={40}
                   height={40}
+                  className="rounded-full"
                 />
               </div>
               <span className={`text-2xl font-bold ${navTextColor}`}>

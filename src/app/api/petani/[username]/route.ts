@@ -9,7 +9,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { username: string } }
 ) {
-  const { username } = params;
+  const { username } = await params;
 
   try {
     const petani = await prisma.user.findUnique({
@@ -23,7 +23,6 @@ export async function GET(
         bio: true,
         lokasi: true,
         linkWhatsapp: true,
-        role: true,
         proyekTani: {
           select: {
             id: true,
@@ -53,14 +52,20 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { username: string } }
 ) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession({ req: request, ...authOptions });
   if (!session || session.user.role !== "PETANI") {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const { username } = params;
   const body = await request.json();
-  const { name, bio, lokasi, linkWhatsapp } = body;
+  const { name, bio, lokasi, linkWhatsapp, image } = body;
+  if (!name || !bio || !lokasi || !linkWhatsapp || !image) {
+    return NextResponse.json(
+      { message: "Semua field wajib diisi" },
+      { status: 400 }
+    );
+  }
 
   try {
     const petani = await prisma.user.update({
@@ -70,6 +75,7 @@ export async function PUT(
         bio,
         lokasi,
         linkWhatsapp,
+        image
       },
     });
 

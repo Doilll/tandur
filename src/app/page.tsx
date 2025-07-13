@@ -6,11 +6,27 @@ import ProductCard from "@/components/ProductCard";
 import FarmerCard from "@/components/FarmerCard";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { getAllProduk } from "@/lib/ProductService";
+import prisma from "@/lib/prisma";
 
 export default async function HomePage() {
   
-  const produks = await getAllProduk();
+  const produks = await prisma.produk.findMany({
+    take: 8,
+    orderBy: { createdAt: "desc"}
+  })
+
+  const petani = await prisma.user.findMany({
+    where: { role: "PETANI" },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      image: true, // URL of the profile picture
+      lokasi: true,
+      linkWhatsapp: true,
+    },
+    take: 2, // Ambil 2 petani untuk ditampilkan
+  })
 
   const dummyPetani = [
     {
@@ -177,7 +193,7 @@ export default async function HomePage() {
               Kenali Pahlawan Pangan Kita
             </h2>
             <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-              {dummyPetani.map((farmer) => (
+              {petani.map((farmer) => (
                 <FarmerCard key={farmer.id} farmer={farmer} />
               ))}
             </div>

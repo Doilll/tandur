@@ -32,8 +32,12 @@ export default function Sidebar({ user }: UserProps) {
           href="/"
           className="flex items-center gap-2 font-bold text-lg text-slate-800"
         >
-          <Leaf className="h-6 w-6 text-green-600" />
-          <span>TaniMaju</span>
+          <img
+            src="/favicon.png"
+            alt="Tandur Logo"
+            className="h-8 w-8"
+          />
+          <span>Tandur</span>
         </Link>
       </div>
 
