@@ -85,7 +85,7 @@ const AuthNav = ({
             asChild
             className="text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-md px-3 py-2"
           >
-            <Link href="/profil">
+            <Link href={`/petani/${user.username}`}>
                 <User className="mr-2 h-4 w-4 inline" />
              Profil</Link>
           </DropdownMenuItem>

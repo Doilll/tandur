@@ -9,13 +9,11 @@ import {
   Loader2,
   AlertCircle,
   CheckCircle,
-  ChevronLeft,
   Upload,
   Trash2,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 interface ProfileData {
   name: string;
