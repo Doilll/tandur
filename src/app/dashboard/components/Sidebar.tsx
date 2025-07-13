@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Leaf, Package, Settings, LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 type UserProps = {
   user: {
@@ -82,7 +83,7 @@ export default function Sidebar({ user }: UserProps) {
 
       {/* Footer Sidebar: Logout */}
       <div className="mt-auto p-4 border-t border-slate-200">
-        <button className="flex w-full items-center gap-3 rounded-md px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-red-50 hover:text-red-600 transition-colors">
+        <button onClick={() => signOut({ callbackUrl: "/" })} className="flex w-full items-center gap-3 rounded-md px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-red-50 hover:text-red-600 transition-colors">
           <LogOut className="h-5 w-5" />
           <span>Logout</span>
         </button>

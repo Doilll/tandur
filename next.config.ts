@@ -15,6 +15,7 @@ const nextConfig = {
         hostname: "placehold.co"
       }
     ],
+    domains: ["uweaoe7wvyxytlgx.public.blob.vercel-storage.com"]
   },
 };
 

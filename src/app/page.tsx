@@ -21,6 +21,7 @@ export default async function HomePage() {
       id: true,
       name: true,
       username: true,
+      bio: true,
       image: true, // URL of the profile picture
       lokasi: true,
       linkWhatsapp: true,
