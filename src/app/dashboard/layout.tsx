@@ -44,7 +44,7 @@ export default async function DashboardLayout({
   const userData = await getPetaniData();
 
   return (
-    <div className="flex min-h-screen bg-gray-200">
+    <div className="flex min-h-screen bg-gray-100">
       <div className="w-72 flex-shrink-0">
         <Sidebar user={userData} />
       </div>

@@ -90,7 +90,7 @@ const KartuProyekPratinjau = ({ proyek }: { proyek: ProyekWithFaseGambar }) => {
 
   return (
     <>
-      <div className="w-full p-2 max-w-6xl mx-auto bg-white rounded-xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden">
+      <div className="w-full p-2 max-w-10xl mx-auto bg-white rounded-xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden">
         <div
           className="relative h-80 cursor-pointer group"
           onClick={handleOpenDetail}

@@ -11,6 +11,10 @@ import { ProjectInfoForm, type FormData } from "./components/ProjectInfoForm";
 import { FaseManagement } from "./components/FaseManagement";
 import { ProjectSidebar } from "./components/ProjectSidebar";
 import { FaseEditorModal } from "./components/FaseEditorModal";
+import {
+  ProdukEditorModal,
+  type ProdukFormData,
+} from "./components/ProdukEditorModal";
 
 // Tipe yang akan digunakan oleh komponen anak
 type ProyekWithFase = ProyekTani & { fase: FaseProyek[] };
@@ -44,6 +48,13 @@ const EditProyekPage = () => {
   const [editingFase, setEditingFase] = useState<FaseFormData | null>(null);
   const [showFaseModal, setShowFaseModal] = useState(false);
 
+  // State untuk Produk
+  const [produkList, setProdukList] = useState<ProdukFormData[]>([]);
+  const [editingProduk, setEditingProduk] = useState<ProdukFormData | null>(
+    null
+  );
+  const [showProdukModal, setShowProdukModal] = useState(false);
+
   // Fetch data proyek (tidak berubah)
   useEffect(() => {
     if (!proyekId) return;
@@ -69,6 +80,22 @@ const EditProyekPage = () => {
       }
     };
     fetchProyek();
+  }, [proyekId]);
+
+  // Fetch data produk
+  useEffect(() => {
+    if (!proyekId) return;
+    const fetchProduk = async () => {
+      try {
+        const response = await fetch(`/api/proyek/${proyekId}/produk`);
+        if (!response.ok) throw new Error("Gagal mengambil data produk");
+        const data: ProdukFormData[] = await response.json();
+        setProdukList(data);
+      } catch (error) {
+        console.error("Error fetching produk:", error);
+      }
+    };
+    fetchProduk();
   }, [proyekId]);
 
   // Semua handler tetap di sini, menjadi "callback" untuk komponen anak
@@ -143,6 +170,56 @@ const EditProyekPage = () => {
     }
   };
 
+  // Handler untuk Produk
+  const handleSaveProduk = async (produkData: ProdukFormData) => {
+    const isEdit = !!produkData.id;
+    const url = isEdit
+      ? `/api/proyek/${proyekId}/produk/${produkData.id}`
+      : `/api/proyek/${proyekId}/produk`;
+    const method = isEdit ? "PUT" : "POST";
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(produkData),
+      });
+      if (!response.ok) throw new Error("Gagal menyimpan produk");
+      const savedProduk = await response.json();
+
+      if (isEdit) {
+        setProdukList((prev) =>
+          prev.map((p) => (p.id === savedProduk.id ? savedProduk : p))
+        );
+      } else {
+        setProdukList((prev) => [...prev, savedProduk]);
+      }
+      setShowProdukModal(false);
+      alert("Produk berhasil disimpan!");
+    } catch (error) {
+      console.error("Error saving produk:", error);
+      alert("Gagal menyimpan produk");
+    }
+  };
+
+  const handleDeleteProduk = async (produkId: string) => {
+    if (!confirm("Apakah Anda yakin ingin menghapus produk ini?")) return;
+    try {
+      const response = await fetch(
+        `/api/proyek/${proyekId}/produk/${produkId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) throw new Error("Gagal menghapus produk");
+      setProdukList((prev) => prev.filter((p) => p.id !== produkId));
+      alert("Produk berhasil dihapus!");
+    } catch (error) {
+      console.error("Error deleting produk:", error);
+      alert("Gagal menghapus produk");
+    }
+  };
+
   const handleImageUpload = async (files: FileList): Promise<string[]> => {
     const uploadFormData = new FormData();
     Array.from(files).forEach((file) => uploadFormData.append("images", file));
@@ -176,6 +253,26 @@ const EditProyekPage = () => {
   const handleOpenEditFase = (fase: FaseFormData) => {
     setEditingFase(fase);
     setShowFaseModal(true);
+  };
+
+  const handleOpenAddProduk = () => {
+    setEditingProduk({
+      namaProduk: "",
+      deskripsi: "",
+      fotoUrl: [],
+      harga: 0,
+      unit: "kg",
+      stokTersedia: 0,
+      status: "TERSEDIA",
+      estimasiPanen: null,
+      proyekTaniId: proyekId,
+    });
+    setShowProdukModal(true);
+  };
+
+  const handleOpenEditProduk = (produk: ProdukFormData) => {
+    setEditingProduk(produk);
+    setShowProdukModal(true);
   };
 
   // Render logic
@@ -233,6 +330,72 @@ const EditProyekPage = () => {
             onEdit={handleOpenEditFase}
             onDelete={handleDeleteFase}
           />
+
+          {/* Manajemen Produk */}
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Produk</h3>
+              <button
+                onClick={handleOpenAddProduk}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              >
+                + Tambah Produk
+              </button>
+            </div>
+
+            {produkList.length === 0 ? (
+              <p className="text-gray-500 text-center py-8">
+                Belum ada produk yang ditambahkan
+              </p>
+            ) : (
+              <div className="space-y-3">
+                {produkList.map((produk) => (
+                  <div
+                    key={produk.id}
+                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                  >
+                    <div className="flex-1">
+                      <h4 className="font-medium text-gray-900">
+                        {produk.namaProduk}
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Rp {produk.harga.toLocaleString("id-ID")} /{" "}
+                        {produk.unit}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Stok: {produk.stokTersedia} {produk.unit}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full ${
+                          produk.status === "TERSEDIA"
+                            ? "bg-green-100 text-green-800"
+                            : produk.status === "PREORDER"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {produk.status}
+                      </span>
+                      <button
+                        onClick={() => handleOpenEditProduk(produk)}
+                        className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProduk(produk.id!)}
+                        className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Sidebar */}
@@ -252,6 +415,16 @@ const EditProyekPage = () => {
         onSave={handleSaveFase}
         initialData={editingFase}
         onImageUpload={handleImageUpload}
+      />
+
+      {/* Modal untuk edit/tambah produk */}
+      <ProdukEditorModal
+        isOpen={showProdukModal}
+        onClose={() => setShowProdukModal(false)}
+        onSave={handleSaveProduk}
+        initialData={editingProduk}
+        onImageUpload={handleImageUpload}
+        proyekId={proyekId}
       />
     </div>
   );

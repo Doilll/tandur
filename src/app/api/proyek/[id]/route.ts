@@ -9,7 +9,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const proyek = await prisma.proyekTani.findUnique({
@@ -22,7 +22,7 @@ export async function GET(
           },
         },
         produk: true,
-        fase: true
+        fase: true,
       },
     });
 
@@ -33,7 +33,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json( proyek, { status: 200 });
+    return NextResponse.json(proyek, { status: 200 });
   } catch (error) {
     console.error("Error GET /api/proyek/[id]:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
