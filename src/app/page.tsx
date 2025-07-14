@@ -12,7 +12,25 @@ export default async function HomePage() {
   
   const produks = await prisma.produk.findMany({
     take: 8,
-    orderBy: { createdAt: "desc"}
+    orderBy: { createdAt: "desc"},
+    select: {
+      id: true,
+      namaProduk: true,
+      harga: true,
+      unit: true,
+      fotoUrl: true,
+      proyekTani: {
+        select: {
+          petani: {
+            select: {
+              name: true,
+              lokasi: true,
+              linkWhatsapp: true,
+            }
+          }
+        }
+      }
+    }
   })
 
   const petani = await prisma.user.findMany({
@@ -172,9 +190,9 @@ export default async function HomePage() {
                 className="w-full pl-12 pr-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500 transition bg-white shadow-sm"
               />
             </div>
-            <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {produks.map((product: any) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} produk={product} />
               ))}
             </div>
             <div className="mt-12 text-center">

@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 
 export default function ProductCard({ produk }: any) {
-  const { id, namaProduk, harga, unit, fotoUrl, petani } = produk;
+  const { id, namaProduk, harga, unit, fotoUrl, proyekTani } = produk;
+  const petani = proyekTani?.petani
 
   return (
     <div className="group overflow-hidden rounded-xl border border-slate-200 shadow-sm transition-all hover:shadow-lg bg-white">

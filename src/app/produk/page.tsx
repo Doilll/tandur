@@ -1,38 +1,35 @@
-"use client";
 
 import ProductCard from "@/components/ProductCard";
 import { Search } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import prisma from "@/lib/prisma";
 
-const produkDummy = [
-  {
-    id: "1",
-    namaProduk: "Tomat Organik",
-    harga: 15000,
-    unit: "kg",
-    fotoUrl: ["/dummy/tomat.jpg"],
-    petani: {
-      name: "Pak Slamet",
-      lokasi: "Wonosobo",
-      linkWhatsapp: "081234567890",
-    },
-  },
-  {
-    id: "2",
-    namaProduk: "Cabai Rawit Merah",
-    harga: 28000,
-    unit: "kg",
-    fotoUrl: ["/dummy/cabai.jpg"],
-    petani: {
-      name: "Bu Sri",
-      lokasi: "Banyuwangi",
-      linkWhatsapp: "6289876543210",
-    },
-  },
-];
 
-export default function ProdukPage() {
+export default async function ProdukPage() {
+
+  const produks = await prisma.produk.findMany({
+      take: 8,
+      orderBy: { createdAt: "desc"},
+      select: {
+        id: true,
+        namaProduk: true,
+        harga: true,
+        unit: true,
+        fotoUrl: true,
+        proyekTani: {
+          select: {
+            petani: {
+              select: {
+                name: true,
+                lokasi: true,
+                linkWhatsapp: true,
+              }
+            }
+          }
+        }
+      }
+    })
   return (
     <>
     <Navbar />
@@ -53,7 +50,7 @@ export default function ProdukPage() {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {produkDummy.map((produk) => (
+        {produks.map((produk: any) => (
           <ProductCard key={produk.id} produk={produk} />
         ))}
       </div>
