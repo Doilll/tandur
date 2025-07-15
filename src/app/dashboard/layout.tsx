@@ -1,11 +1,10 @@
-import Sidebar from "@/app/dashboard/components/Sidebar"; // Pastikan path ini benar
+import Sidebar from "@/app/dashboard/components/Sidebar";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
-// Fungsi ini akan berjalan di server
 async function getPetaniData() {
   const session = await getServerSession(authOptions);
 
@@ -13,7 +12,6 @@ async function getPetaniData() {
     redirect("/sign-in");
   }
 
-  // Langsung query ke database dari Server Component
   const petani = await prisma.user.findUnique({
     where: {
       username: session.user.username,
@@ -26,7 +24,7 @@ async function getPetaniData() {
   });
 
   if (!petani) {
-    redirect("/error-page"); // atau handle error
+    redirect("/error-page");
   }
 
   return {
@@ -45,10 +43,10 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <div className="w-72 flex-shrink-0">
-        <Sidebar user={userData} />
-      </div>
-      <main className="flex-grow p-6 md:p-8">{children}</main>
+      <Sidebar user={userData} />
+      <main className="flex-grow p-4 md:p-6 lg:p-8 w-full md:ml-0">
+        {children}
+      </main>
     </div>
   );
 }
