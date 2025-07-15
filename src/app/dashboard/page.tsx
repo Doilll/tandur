@@ -146,8 +146,6 @@ export default function DashboardOverviewPage() {
             + Buat Proyek Baru
           </button>
         </div>
-
-        {/* Tampilkan semua proyek */}
         <DisplaySemuaProyek proyek={proyek} />
       </div>
 

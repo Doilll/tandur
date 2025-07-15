@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ProyekTani, FaseProyek, StatusProyek } from "@prisma/client";
-import { ArrowLeft, Eye, Save } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 
 // Import komponen yang sudah di-refactor
 import { ProjectInfoForm, type FormData } from "./components/ProjectInfoForm";
