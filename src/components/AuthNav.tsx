@@ -40,16 +40,17 @@ const AuthNav = ({
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+          <div className="relative h-10 w-10 rounded-full cursor-pointer">
             <Avatar className="h-10 w-10">
               <AvatarImage src={user.image!} alt={user.name!} />
               <AvatarFallback>{userInitial}</AvatarFallback>
             </Avatar>
-          </Button>
+          </div>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent
           className="w-64 bg-white text-black border border-gray-200 shadow-xl rounded-xl p-2"
-          align="end"
+          align="center"
           forceMount
         >
           <DropdownMenuLabel className="pb-3 border-b border-gray-200">
@@ -76,8 +77,8 @@ const AuthNav = ({
             className="text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-md px-3 py-2"
           >
             <Link href="/dashboard">
-            <LayoutDashboard className="mr-2 h-4 w-4 inline" />
-              Dashboard 
+              <LayoutDashboard className="mr-2 h-4 w-4 inline" />
+              Dashboard
             </Link>
           </DropdownMenuItem>
 
@@ -86,8 +87,9 @@ const AuthNav = ({
             className="text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-md px-3 py-2"
           >
             <Link href={`/petani/${user.username}`}>
-                <User className="mr-2 h-4 w-4 inline" />
-             Profil</Link>
+              <User className="mr-2 h-4 w-4 inline" />
+              Profil
+            </Link>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />

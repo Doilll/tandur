@@ -39,7 +39,7 @@ const KartuProyekOverview = ({ proyek }: { proyek: ProyekWithFaseGambar }) => {
   const previewImage = getPreviewImage();
 
   return (
-    <Link href={`/dashboard/proyek/${proyek.id}`} className="block">
+    <Link href={`/dashboard/proyek/${proyek.id}/edit`} className="block">
       <div className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer">
         {/* Thumbnail Gambar */}
         <div className="w-full h-32 rounded-lg bg-gray-200 overflow-hidden mb-3">

@@ -158,7 +158,6 @@ const KartuProyekPratinjau = ({ proyek }: { proyek: ProyekWithFaseGambar }) => {
             </div>
           </div>
 
-          {/* Overlay hover effect */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
             <span className="bg-white text-gray-800 font-medium px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Lihat Detail

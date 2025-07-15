@@ -4,21 +4,8 @@ import { Button } from "@/components/ui/button";
 import FormProyekBaru from "@/components/FormProyekBaru";
 import DisplaySemuaProyek from "@/components/DisplaySemuaProyek";
 
-// Dummy data
 
-const BadgeStatus = ({ status }: { status: string }) => {
-  const color =
-    status === "PERSIAPAN"
-      ? "bg-yellow-100 text-yellow-800"
-      : status === "BERJALAN"
-      ? "bg-green-100 text-green-800"
-      : "bg-slate-100 text-slate-600";
-  return (
-    <span className={`text-xs px-2 py-1 rounded-full font-semibold ${color}`}>
-      {status}
-    </span>
-  );
-};
+
 
 export default function ProyekDashboardPage() {
   const [proyek, setProyek] = useState([]);
