@@ -1,9 +1,6 @@
-// src/components/DisplayProyekOverview.tsx
-
 "use client";
 
-import React from "react";
-import { ProyekTani, FaseProyek } from "@prisma/client";
+import { ProyekTani } from "@prisma/client";
 import Link from "next/link";
 
 // Tipe untuk ProyekTani yang sudah include relasi fase (dengan gambar)

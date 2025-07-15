@@ -13,6 +13,7 @@ import Link from "next/link";
 import ProductImages from "@/components/ProductImages";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import HandleShare from "@/components/HandleShare";
 
 const getProdukData = async (id: string) => {
   try {
@@ -102,6 +103,7 @@ export default async function ProductDetail({
                 {produk.status}
               </span>
             </div>
+            
 
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               {produk.namaProduk}

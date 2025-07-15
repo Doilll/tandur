@@ -7,12 +7,12 @@ import FarmerCard from "@/components/FarmerCard";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import prisma from "@/lib/prisma";
+import FAQCard from "@/components/FAQCard";
 
 export default async function HomePage() {
-  
   const produks = await prisma.produk.findMany({
     take: 8,
-    orderBy: { createdAt: "desc"},
+    orderBy: { createdAt: "desc" },
     select: {
       id: true,
       namaProduk: true,
@@ -26,12 +26,12 @@ export default async function HomePage() {
               name: true,
               lokasi: true,
               linkWhatsapp: true,
-            }
-          }
-        }
-      }
-    }
-  })
+            },
+          },
+        },
+      },
+    },
+  });
 
   const petani = await prisma.user.findMany({
     where: { role: "PETANI" },
@@ -45,7 +45,7 @@ export default async function HomePage() {
       linkWhatsapp: true,
     },
     take: 2, // Ambil 2 petani untuk ditampilkan
-  })
+  });
 
   const dummyPetani = [
     {
@@ -99,7 +99,7 @@ export default async function HomePage() {
                 className="bg-green-600 hover:bg-green-700"
                 asChild
               >
-                <Link href="#produk">
+                <Link href="/produk">
                   Jelajahi Hasil Tani <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -215,6 +215,32 @@ export default async function HomePage() {
               {petani.map((farmer) => (
                 <FarmerCard key={farmer.id} farmer={farmer} />
               ))}
+            </div>
+          </div>
+        </section>
+        <section
+          className="py-20 bg-white"
+          style={{ fontFamily: "mona-sans" }}
+        >
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold tracking-tight text-center text-slate-900 sm:text-4xl mb-8">
+              Pertanyaan Yang Sering Diajukan
+            </h2>
+            <div className="max-w-2xl mx-auto space-y-4">
+              <FAQCard
+                question="Bagaimana cara memesan produk?"
+                answer="Anda bisa langsung menghubungi petani melalui tombol WhatsApp yang tersedia di halaman produk."
+              />
+              <FAQCard
+                question="Apakah ada minimal pembelian?"
+                answer="Minimal pembelian tergantung kebijakan masing-masing petani. Biasanya tercantum di deskripsi produk."
+                initialOpen={true}
+              />
+              <FAQCard
+                question="Bagaimana sistem pengiriman produk?"
+                answer="Pengiriman bisa dilakukan melalui jasa ekspedisi atau diambil langsung sesuai kesepakatan dengan petani."
+                className="border-green-200"
+              />
             </div>
           </div>
         </section>

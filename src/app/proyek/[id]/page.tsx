@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import HandleShare from "@/components/HandleShare";
 
 const getProyekDetail = async (id: string) => {
   try {
@@ -149,16 +150,10 @@ export default async function ProyekDetail({
                   {proyek.namaProyek}
                 </h1>
               </div>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  className="flex items-center gap-1 p-2 text-gray-500 hover:text-green-600 rounded-full transition-colors"
-                  aria-label="Bagikan proyek"
-                >
-                  <Share2 className="w-5 h-5" />
-                  <span className="hidden sm:inline">Bagikan</span>
-                </button>
-              </div>
+              <HandleShare
+                title={`Bagikan Proyek ${proyek.namaProyek}`}
+                text={`Lihat proyek ${proyek.namaProyek} di Tandur`}
+              />
             </div>
 
             <div className="flex items-center gap-2 text-gray-600 mb-4">

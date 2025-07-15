@@ -15,7 +15,7 @@ const OrderCard = ({ whatsappLink, productName }: ProductInteractionProps) => {
     if (navigator.share) {
       navigator.share({
         title: productName,
-        text: `Lihat produk ${productName} di AgriFarm`,
+        text: `Lihat produk ${productName} di Tandur`,
         url: window.location.href,
       }).catch(console.error);
     } else {

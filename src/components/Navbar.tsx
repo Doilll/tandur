@@ -65,13 +65,13 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <Link
-                href="/#tentang"
+                href="/tentang"
                 className={`hover:text-green-500 transition-colors ${navTextColor}`}
               >
                 Tentang
               </Link>
               <Link
-                href="/#produk"
+                href="/produk"
                 className={`hover:text-green-500 transition-colors ${navTextColor}`}
               >
                 Produk
@@ -81,12 +81,6 @@ const Navbar = () => {
                 className={`hover:text-green-500 transition-colors ${navTextColor}`}
               >
                 Petani
-              </Link>
-              <Link
-                href="/kontak"
-                className={`hover:text-green-500 transition-colors ${navTextColor}`}
-              >
-                Kontak
               </Link>
             </div>
 
@@ -115,13 +109,13 @@ const Navbar = () => {
           <div className="md:hidden bg-white/95 backdrop-blur-sm border-t">
             <div className="px-4 pt-4 pb-6 space-y-4">
               <Link
-                href="/#tentang"
+                href="/tentang"
                 className="block text-slate-700 hover:text-green-600"
               >
                 Tentang
               </Link>
               <Link
-                href="/#produk"
+                href="/produk"
                 className="block text-slate-700 hover:text-green-600"
               >
                 Produk

@@ -5,33 +5,48 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+
 export async function GET(request: NextRequest) {
-  const produk = await prisma.produk.findMany({
-    select: {
-      id: true,
-      namaProduk: true,
-      deskripsi: true,
-      harga: true,
-      fotoUrl: true,
-      proyekTani: {
-        select: {
-          lokasiLahan: true,
-          petani: {
-            select: {
-              name: true,
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get('q') || '';
+
+  try {
+    const produks = await prisma.produk.findMany({
+      where: {
+        namaProduk: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+      take: 30,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        namaProduk: true,
+        harga: true,
+        unit: true,
+        fotoUrl: true,
+        proyekTani: {
+          select: {
+            petani: {
+              select: {
+                name: true,
+                lokasi: true,
+                linkWhatsapp: true,
+              },
             },
           },
         },
       },
-    },
-  });
-  return NextResponse.json(
-    {
-      message: "Berhasil mengambil data produk",
-      data: produk,
-    },
-    { status: 200 }
-  );
+    });
+
+    return NextResponse.json(produks);
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to fetch products' },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: NextRequest) {
