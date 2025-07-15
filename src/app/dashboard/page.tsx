@@ -6,61 +6,54 @@ import { ProyekTani } from "@prisma/client";
 import FormProyekBaru from "@/components/FormProyekBaru";
 import DisplaySemuaProyek from "@/components/DisplayProyekOverview";
 
-// Definisikan tipe yang sesuai dengan yang diharapkan DisplayProyek
 type ProyekWithFaseGambar = ProyekTani & {
   fase: {
     gambar: string[];
   }[];
 };
 
-// Komponen StatCard tidak perlu diubah, sudah bagus
 const StatCard = ({ title, value, icon: Icon, colorClass }: any) => (
-  <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+  <div className="rounded-xl border border-slate-200 bg-white p-4 md:p-6 shadow-sm">
     <div className="flex items-center justify-between">
-      <p className="text-sm font-medium text-slate-500">{title}</p>
-      <div className={`rounded-full p-2 ${colorClass}`}>
-        <Icon className="h-5 w-5 text-white" />
+      <p className="text-xs md:text-sm font-medium text-slate-500">{title}</p>
+      <div className={`rounded-full p-1.5 md:p-2 ${colorClass}`}>
+        <Icon className="h-4 w-4 md:h-5 md:w-5 text-white" />
       </div>
     </div>
-    <p className="mt-2 text-3xl font-bold text-slate-800">{value}</p>
+    <p className="mt-2 text-xl md:text-3xl font-bold text-slate-800">{value}</p>
   </div>
 );
 
 export default function DashboardOverviewPage() {
-  // State untuk data dan modal - gunakan tipe yang tepat
   const [proyek, setProyek] = useState<ProyekWithFaseGambar[]>([]);
   const [stats, setStats] = useState({ proyekAktif: 0, totalProduk: 0 });
   const [aktivitasTerbaru, setAktivitasTerbaru] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Fungsi untuk mengambil semua data
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      // Fetch proyek dengan include fase
       const res = await fetch("/api/proyek?include=fase");
       if (!res.ok) throw new Error("Gagal mengambil data");
 
       const data = await res.json();
 
-      // Transform data jika perlu untuk memastikan struktur yang tepat
       const proyekData =
         data.data?.map((p: any) => ({
           ...p,
-          fase: p.fase || [], // Pastikan fase selalu ada, minimal array kosong
+          fase: p.fase || [],
         })) || [];
 
       setProyek(proyekData);
       setStats({
         proyekAktif:
           proyekData.filter((p: any) => p.status !== "SELESAI").length || 0,
-        totalProduk: 0, // Belum ada API untuk produk
+        totalProduk: 0,
       });
-      setAktivitasTerbaru([]); // Belum ada API untuk aktivitas
+      setAktivitasTerbaru([]);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // Set data kosong jika error
       setProyek([]);
       setStats({ proyekAktif: 0, totalProduk: 0 });
     } finally {
@@ -68,17 +61,14 @@ export default function DashboardOverviewPage() {
     }
   };
 
-  // Ambil data saat komponen pertama kali dimuat
   useEffect(() => {
     fetchData();
   }, []);
 
   const handleSuccess = () => {
-    // Fetch ulang data setelah berhasil buat proyek
     fetchData();
   };
 
-  // Tampilan loading
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -92,9 +82,9 @@ export default function DashboardOverviewPage() {
 
   return (
     <>
-      <div className="space-y-8">
+      <div className="space-y-6 md:space-y-8">
         {/* Grid untuk Kartu Statistik */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
           <StatCard
             title="Proyek Aktif"
             value={stats.proyekAktif}
@@ -116,8 +106,8 @@ export default function DashboardOverviewPage() {
         </div>
 
         {/* Area Aktivitas Terbaru */}
-        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-800">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 md:p-6 shadow-sm">
+          <h2 className="text-lg md:text-xl font-semibold text-slate-800">
             Aktivitas Proyek Terbaru
           </h2>
           {aktivitasTerbaru.length > 0 ? (
@@ -145,11 +135,13 @@ export default function DashboardOverviewPage() {
         </div>
 
         {/* Header Section dengan Tombol Buat Proyek */}
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold text-slate-800">Proyek Anda</h2>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-800">
+            Proyek Anda
+          </h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-semibold transition-colors"
+            className="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-semibold transition-colors text-sm md:text-base"
           >
             + Buat Proyek Baru
           </button>
