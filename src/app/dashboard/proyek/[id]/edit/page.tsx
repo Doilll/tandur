@@ -3,7 +3,12 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ProyekTani, FaseProyek, StatusProyek } from "@prisma/client";
+import {
+  ProyekTani,
+  FaseProyek,
+  StatusProyek,
+  FarmingUpdate,
+} from "@prisma/client";
 import { ArrowLeft, Save } from "lucide-react";
 
 // Import komponen yang sudah di-refactor
@@ -15,6 +20,8 @@ import {
   ProdukEditorModal,
   type ProdukFormData,
 } from "./components/ProdukEditorModal";
+import { FarmingUpdateManagement } from "./components/FarmingUpdateManagement";
+import { UpdateEditorModal } from "./components/UpdateEditorModal";
 
 // Tipe yang akan digunakan oleh komponen anak
 type ProyekWithFase = ProyekTani & { fase: FaseProyek[] };
@@ -55,31 +62,47 @@ const EditProyekPage = () => {
   );
   const [showProdukModal, setShowProdukModal] = useState(false);
 
-  // Fetch data proyek (tidak berubah)
+  // State untuk Farming Update
+  const [updates, setUpdates] = useState<FarmingUpdate[]>([]);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+  // Fetch semua data proyek, termasuk farming updates
   useEffect(() => {
     if (!proyekId) return;
-    const fetchProyek = async () => {
+    const fetchAllData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`/api/proyek/${proyekId}`);
-        if (!response.ok) throw new Error("Gagal mengambil data proyek");
-        const data: ProyekWithFase = await response.json();
-        setProyek(data);
+        // Gunakan Promise.all untuk fetch data secara paralel
+        const [proyekRes, updatesRes] = await Promise.all([
+          fetch(`/api/proyek/${proyekId}`),
+          fetch(`/api/proyek/${proyekId}/update`),
+        ]);
+
+        if (!proyekRes.ok) throw new Error("Gagal mengambil data proyek");
+        const dataProyek: ProyekWithFase = await proyekRes.json();
+        setProyek(dataProyek);
         setFormData({
-          namaProyek: data.namaProyek,
-          deskripsi: data.deskripsi,
-          lokasiLahan: data.lokasiLahan,
-          status: data.status,
+          namaProyek: dataProyek.namaProyek,
+          deskripsi: dataProyek.deskripsi,
+          lokasiLahan: dataProyek.lokasiLahan,
+          status: dataProyek.status,
         });
-        setFaseList(data.fase.map((f) => ({ ...f, gambar: f.gambar || [] })));
+        setFaseList(
+          dataProyek.fase.map((f) => ({ ...f, gambar: f.gambar || [] }))
+        );
+
+        if (updatesRes.ok) {
+          const dataUpdates = await updatesRes.json();
+          setUpdates(dataUpdates);
+        }
       } catch (error) {
-        console.error("Error fetching proyek:", error);
-        alert("Gagal memuat data proyek");
+        console.error("Error fetching data:", error);
+        alert("Gagal memuat data halaman");
       } finally {
         setLoading(false);
       }
     };
-    fetchProyek();
+    fetchAllData();
   }, [proyekId]);
 
   // Fetch data produk
@@ -220,6 +243,27 @@ const EditProyekPage = () => {
     }
   };
 
+  // Handler untuk Farming Update
+  const handleSaveUpdate = async (
+    updateData: Omit<FarmingUpdate, "id" | "proyekTaniId" | "createdAt">
+  ) => {
+    try {
+      const response = await fetch(`/api/proyek/${proyekId}/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateData),
+      });
+      if (!response.ok) throw new Error("Gagal menyimpan update");
+      const newUpdate = await response.json();
+      setUpdates((prev) => [newUpdate, ...prev]); // Tambahkan ke depan array
+      setShowUpdateModal(false);
+      alert("Update berhasil disimpan!");
+    } catch (error) {
+      alert("Gagal menyimpan update.");
+      console.error(error);
+    }
+  };
+
   const handleImageUpload = async (files: FileList): Promise<string[]> => {
     const uploadFormData = new FormData();
     Array.from(files).forEach((file) => uploadFormData.append("images", file));
@@ -331,6 +375,12 @@ const EditProyekPage = () => {
             onDelete={handleDeleteFase}
           />
 
+          {/* Komponen Farming Update Management */}
+          <FarmingUpdateManagement
+            updates={updates}
+            onAdd={() => setShowUpdateModal(true)}
+          />
+
           {/* Manajemen Produk */}
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="flex items-center justify-between mb-4">
@@ -425,6 +475,13 @@ const EditProyekPage = () => {
         initialData={editingProduk}
         onImageUpload={handleImageUpload}
         proyekId={proyekId}
+      />
+
+      {/* Modal untuk edit/tambah farming update */}
+      <UpdateEditorModal
+        isOpen={showUpdateModal}
+        onClose={() => setShowUpdateModal(false)}
+        onSave={handleSaveUpdate}
       />
     </div>
   );
