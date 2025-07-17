@@ -8,7 +8,6 @@ import AuthNav from "@/components/AuthNav";
 import { SessionProvider } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-// Komponen untuk menampilkan status otentikasi
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);

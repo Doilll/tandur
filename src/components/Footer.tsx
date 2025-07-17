@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Leaf } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => (
   <footer
@@ -11,7 +11,13 @@ const Footer = () => (
         <div className="col-span-1 md:col-span-2">
           <div className="flex items-center space-x-2 mb-4">
             <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-              <Leaf className="w-5 h-5 text-white" />
+              <Image
+                src="/favicon.png" // Ganti dengan path logo yang benar
+                alt="Tandur Logo"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
             </div>
             <span className="text-xl font-bold">Tandur</span>
           </div>
