@@ -1,89 +1,118 @@
-// app/api/produk/route.ts
+// src/app/api/produk/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-
+// GET: Mengambil SEMUA produk milik petani yang sedang login
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const query = searchParams.get('q') || '';
-
   try {
-    const produks = await prisma.produk.findMany({
+    const session = await getServerSession(authOptions);
+    if (!session?.user || session.user.role !== "PETANI") {
+      return NextResponse.json({ message: "Akses ditolak" }, { status: 403 });
+    }
+
+    const products = await prisma.produk.findMany({
       where: {
-        namaProduk: {
-          contains: query,
-          mode: 'insensitive',
+        proyekTani: {
+          petaniId: session.user.id,
         },
       },
-      take: 30,
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        namaProduk: true,
-        harga: true,
-        unit: true,
-        fotoUrl: true,
+      include: {
         proyekTani: {
           select: {
+            namaProyek: true,
             petani: {
-              select: {
-                name: true,
-                lokasi: true,
-                linkWhatsapp: true,
-              },
+              select: { name: true, lokasi: true, linkWhatsapp: true },
             },
           },
         },
       },
+      orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json(produks);
+    return NextResponse.json(products);
   } catch (error) {
+    console.error("Error fetching products:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch products' },
+      { message: "Gagal mengambil produk" },
       { status: 500 }
     );
   }
 }
 
+// POST: Membuat produk BARU
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session || session.user.role !== "PETANI") {
-    return NextResponse.json(
-      {
-        message: "Unauthorized",
-      },
-      { status: 401 }
-    );
-  }
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user || session.user.role !== "PETANI") {
+      return NextResponse.json({ message: "Akses ditolak" }, { status: 403 });
+    }
 
-  const body = await request.json();
-  const {
-    namaProduk,
-    deskripsi,
-    harga,
-    fotoUrl,
-    proyekTaniId,
-    unit,
-    stokTersedia,
-  } = body;
-
-  const produk = await prisma.produk.create({
-    data: {
+    const body = await request.json();
+    const {
       namaProduk,
       deskripsi,
       harga,
       fotoUrl,
+      proyekTaniId,
       unit,
       stokTersedia,
-      proyekTani: {
-        connect: { id: proyekTaniId },
-      },
-    },
-  });
+      status,
+      estimasiPanen,
+    } = body;
 
-  return NextResponse.json({ produk }, { status: 201 });
+    // 1. Validasi Input
+    if (
+      !namaProduk ||
+      !proyekTaniId ||
+      !harga ||
+      !unit ||
+      stokTersedia == null
+    ) {
+      return NextResponse.json(
+        { message: "Data wajib tidak lengkap" },
+        { status: 400 }
+      );
+    }
+
+    // 2. Validasi Kepemilikan Proyek (PENTING!)
+    const proyek = await prisma.proyekTani.findFirst({
+      where: {
+        id: proyekTaniId,
+        petaniId: session.user.id,
+      },
+    });
+
+    if (!proyek) {
+      return NextResponse.json(
+        { message: "Proyek tidak valid atau bukan milik Anda" },
+        { status: 403 }
+      );
+    }
+
+    // 3. Buat Produk
+    const newProduct = await prisma.produk.create({
+      data: {
+        namaProduk,
+        deskripsi,
+        harga: Number(harga),
+        fotoUrl,
+        unit,
+        stokTersedia: Number(stokTersedia),
+        status,
+        estimasiPanen: estimasiPanen ? new Date(estimasiPanen) : null,
+        proyekTaniId: proyekTaniId,
+      },
+    });
+
+    return NextResponse.json(newProduct, { status: 201 });
+  } catch (error) {
+    console.error("Error creating product:", error);
+    return NextResponse.json(
+      { message: "Gagal membuat produk" },
+      { status: 500 }
+    );
+  }
 }
