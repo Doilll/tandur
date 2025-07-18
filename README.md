@@ -77,7 +77,6 @@ Pengembangan platform Tandur akan memanfaatkan tumpukan teknologi modern dan ter
 
 Arsitektur sistem platform Tandur dirancang untuk menjadi modern, skalabel, dan efisien, memanfaatkan teknologi terkini untuk memastikan kinerja optimal dan pengalaman pengguna yang mulus.
 
-![Arsitektur Sistem Tandur](tandur.drawio%20(2).png)
 
 * **Client (Browser):** Antarmuka utama bagi pengguna untuk berinteraksi dengan platform.
 * **Next.js Page:** Inti aplikasi *frontend*, bertanggung jawab untuk *rendering* halaman, *routing*, dan inisiasi permintaan data. Dapat melayani konten melalui **SSR (Server-Side Rendering)** untuk *loading* cepat dan *SEO friendly*, atau melalui **API Route** untuk interaksi data dinamis setelah halaman dimuat.
