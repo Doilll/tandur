@@ -112,11 +112,3 @@ Platform Tandur diharapkan akan menghasilkan dampak positif yang substansial dan
 * **Fase 2: Peluncuran Pilot dan Pengumpulan Umpan Balik:** Meluncurkan MVP kepada sejumlah petani dan konsumen terbatas untuk pengujian nyata, mengumpulkan umpan balik, dan mengidentifikasi area perbaikan, termasuk penguatan materi pelatihan literasi digital.
 * **Fase 3: Pengembangan Fitur Lanjutan dan Ekspansi:** Menambahkan fitur-fitur seperti notifikasi, pelaporan analitik, *dashboard* pendapatan petani, *rating* & *review*, integrasi logistik/pembayaran, serta strategi pemasaran untuk akuisisi pengguna lebih luas dan kemitraan.
 * **Fase 4: Optimalisasi dan Skalabilitas:** Memastikan stabilitas dan kinerja platform, meningkatkan infrastruktur Neon untuk volume data besar, mengembangkan fitur inovatif, serta melakukan evaluasi dampak jangka panjang.
-
-## Kontribusi
-
-Kami menyambut kontribusi dari komunitas *developer*, desainer, ahli pertanian, dan siapa pun yang tertarik untuk berkolaborasi dalam mewujudkan visi Tandur. Silakan cek isu-isu terbuka atau ajukan *pull request*.
-
-## Lisensi
-
-Proyek ini dilisensikan di bawah [Sebutkan Lisensi Anda, contoh: MIT License].
