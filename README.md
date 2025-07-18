@@ -54,7 +54,7 @@ Pengembangan dan implementasi platform Tandur diharapkan akan memberikan beragam
 * **Dukungan Langsung Petani Lokal:** Setiap pembelian melalui Tandur berarti dukungan langsung kepada petani lokal, berkontribusi pada pengembangan ekonomi masyarakat pertanian.
 
 ### Bagi Lingkungan dan Keberlanjutan
-* [cite_start]**Mendorong Pertanian Berkelanjutan:** Transparansi dalam proses produksi dapat mendorong petani untuk mengadopsi atau mempertahankan praktik pertanian yang lebih bertanggung jawab dan berkelanjutan, karena hal ini akan terlihat dan dihargai oleh konsumen[cite: 135, 136].
+* [cite_start]**Mendorong Pertanian Berkelanjutan:** Transparansi dalam proses produksi dapat mendorong petani untuk mengadopsi atau mempertahankan praktik pertanian yang lebih bertanggung jawab dan berkelanjutan, karena hal ini akan terlihat dan dihargai oleh konsumen.
 * **Pengurangan Limbah Makanan:** Rantai pasok yang lebih pendek dan efisien dapat membantu mengurangi *food loss* dan *waste* yang sering terjadi dalam jalur distribusi tradisional.
 
 ### Bagi Ekonomi Nasional
