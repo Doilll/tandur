@@ -36,17 +36,16 @@ Tujuan utama dari inisiatif Tandur adalah mentransformasi rantai pasok pertanian
 * **Membangun *Branding* dan Kapasitas Petani:** Memberdayakan petani untuk membangun identitas *branding* produk mereka sendiri melalui fitur *storytelling* dan profil digital, agar produk tidak hanya dinilai dari hasil akhir, tetapi juga dari siapa yang memproduksinya dan bagaimana prosesnya. Selain itu, meningkatkan literasi digital dan kemampuan wirausaha petani kecil agar mandiri secara ekonomi.
 * **Mewujudkan Transparansi dalam Proses Produksi Pertanian:** Menyediakan informasi terbuka mengenai asal-usul produk, lokasi petani, serta proses produksi yang dilakukan, sehingga konsumen mengetahui asal-usul produk secara akurat.
 * **Memberikan Pondasi Menuju Pertanian Berkelanjutan dan Berkeadilan:** Transparansi produksi mendorong praktik pertanian yang bertanggung jawab dan etis, serta mendorong konsumsi yang lebih bertanggung jawab dengan menghubungkan konsumen secara langsung dengan produsen dan cerita di balik produk mereka.
-* **Mendukung Tujuan Pembangunan Berkelanjutan (SDGs):** Berkontribusi secara signifikan pada pencapaian SDG 1 (Tanpa Kemiskinan), SDG 8 (Pekerjaan Layak dan Pertumbuhan Ekonomi), dan SDG 12 (Konsumsi dan Produksi Berkelanjutan) melalui pemberdayaan ekonomi dan praktik bisnis yang etis.
-
+* **Mendukung Tujuan Pembangunan Berkelanjutan (SDGs):** Berkontribusi secara signifikan pada pencapaian SDG 1 (Tanpa Kemiskinan)
 ## Manfaat
 
 Pengembangan dan implementasi platform Tandur diharapkan akan memberikan beragam manfaat signifikan bagi berbagai pihak, menciptakan dampak positif yang meluas dalam ekosistem pertanian Indonesia.
 
 ### Bagi Petani
-* **Peningkatan Pendapatan yang Signifikan:** Dengan memangkas rantai distribusi yang panjang dan menghilangkan ketergantungan pada tengkulak, petani akan mendapatkan margin keuntungan yang jauh lebih besar dari hasil panen mereka, 222]. [cite_start]Hal ini secara langsung akan meningkatkan pendapatan dan kesejahteraan keluarga petani, berkontribusi pada pengurangan angka kemiskinan[cite: 710].
-* [cite_start]**Pemberdayaan Ekonomi dan Kemandirian:** Akses langsung ke pasar digital memberdayakan petani untuk mengontrol harga jual dan strategi pemasaran mereka, mengurangi ketergantungan struktural dan fostering kemandirian ekonomi[cite: 84, 86].
-* [cite_start]**Penguatan Identitas dan Pengakuan:** Fitur profil petani dan *storytelling* memungkinkan petani untuk membangun *brand* pribadi dan mendapatkan pengakuan atas kerja keras serta kualitas produk mereka[cite: 507].
-* [cite_start]**Peningkatan Akses Informasi:** Petani dapat mengakses data pasar, preferensi konsumen, dan tren pertanian terbaru melalui platform, membantu mereka membuat keputusan yang lebih cerdas mengenai jenis produk dan waktu panen[cite: 110, 297].
+* **Peningkatan Pendapatan yang Signifikan:** Dengan memangkas rantai distribusi yang panjang dan menghilangkan ketergantungan pada tengkulak, petani akan mendapatkan margin keuntungan yang jauh lebih besar dari hasil panen mereka, 222]. [cite_start]Hal ini secara langsung akan meningkatkan pendapatan dan kesejahteraan keluarga petani, berkontribusi pada pengurangan angka kemiskinan
+* [cite_start]**Pemberdayaan Ekonomi dan Kemandirian:** Akses langsung ke pasar digital memberdayakan petani untuk mengontrol harga jual dan strategi pemasaran mereka, mengurangi ketergantungan struktural dan fostering kemandirian ekonomi
+* [cite_start]**Penguatan Identitas dan Pengakuan:** Fitur profil petani dan *storytelling* memungkinkan petani untuk membangun *brand* pribadi dan mendapatkan pengakuan atas kerja keras serta kualitas produk mereka
+* [cite_start]**Peningkatan Akses Informasi:** Petani dapat mengakses data pasar, preferensi konsumen, dan tren pertanian terbaru melalui platform, membantu mereka membuat keputusan yang lebih cerdas mengenai jenis produk dan waktu panen
 
 ### Bagi Konsumen
 * **Akses Produk Segar dan Berkualitas:** Konsumen dapat memperoleh produk pertanian yang lebih segar dan berkualitas tinggi langsung dari sumbernya, seringkali dengan harga yang lebih kompetitif karena tidak melalui banyak perantara.
@@ -59,8 +58,8 @@ Pengembangan dan implementasi platform Tandur diharapkan akan memberikan beragam
 * **Pengurangan Limbah Makanan:** Rantai pasok yang lebih pendek dan efisien dapat membantu mengurangi *food loss* dan *waste* yang sering terjadi dalam jalur distribusi tradisional.
 
 ### Bagi Ekonomi Nasional
-* [cite_start]**Pengurangan Ketimpangan Ekonomi:** Platform ini secara aktif mengurangi ketimpangan ekonomi dalam sektor pertanian, yang pada gilirannya berkontribusi pada pertumbuhan ekonomi yang lebih inklusif dan merata[cite: 737, 856].
-* [cite_start]**Peningkatan Kontribusi PDB Sektor Pertanian:** Dengan meningkatkan nilai tambah yang diterima petani dan efisiensi rantai pasok, sektor pertanian dapat memberikan kontribusi PDB yang lebih optimal[cite: 860].
+* **Pengurangan Ketimpangan Ekonomi:** Platform ini secara aktif mengurangi ketimpangan ekonomi dalam sektor pertanian, yang pada gilirannya berkontribusi pada pertumbuhan ekonomi yang lebih inklusif dan merata
+* **Peningkatan Kontribusi PDB Sektor Pertanian:** Dengan meningkatkan nilai tambah yang diterima petani dan efisiensi rantai pasok, sektor pertanian dapat memberikan kontribusi PDB yang lebih optimal
 * **Pencapaian SDGs:** Kontribusi nyata terhadap SDG 1 (Tanpa Kemiskinan), SDG 8 (Pekerjaan Layak dan Pertumbuhan Ekonomi), dan SDG 12 (Konsumsi dan Produksi Berkelanjutan) melalui pemberdayaan ekonomi dan praktik bisnis yang etis.
 
 ## Teknologi yang Digunakan
