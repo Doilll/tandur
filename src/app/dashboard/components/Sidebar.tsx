@@ -43,7 +43,7 @@ export default function Sidebar({ user }: UserProps) {
       {!isOpen && (
         <button
           onClick={toggleSidebar}
-          className="md:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-md shadow-lg border border-slate-200"
+          className="md:hidden fixed top-6 left-4 z-50 p-2 bg-white rounded-md shadow-lg border border-slate-200"
         >
           <Menu className="h-6 w-6" />
         </button>
@@ -60,10 +60,12 @@ export default function Sidebar({ user }: UserProps) {
       {/* Sidebar */}
       <div
         className={`
-       fixed md:relative top-0 left-0 h-full w-72 bg-white border-r border-slate-200 z-40
-       transform transition-transform duration-300 ease-in-out
-       ${isOpen ? "translate-x-0" : "-translate-x-full"}
-       md:translate-x-0
+       fixed md:sticky top-0 left-0 h-screen bg-white border-r border-slate-200 z-40
+    transform transition-transform duration-300 ease-in-out
+    ${isOpen ? "translate-x-0" : "-translate-x-full"}
+    md:translate-x-0
+    overflow-y-auto
+    w-80
      `}
       >
         <div className="flex h-full flex-col">
