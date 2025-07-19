@@ -76,7 +76,7 @@ const Navbar = () => {
                 Produk
               </Link>
               <Link
-                href="/petani"
+                href="/"
                 className={`hover:text-green-500 transition-colors ${navTextColor}`}
               >
                 Petani

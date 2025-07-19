@@ -23,12 +23,20 @@
   }
 }
 
-/* Hilangkan scrollbar tapi masih bisa scroll */
-body {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
+.loader {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border-top: 8px solid #4CAF50;
+  border-left: 8px solid #4CAF50;
+  border-right: 8px solid #4CAF50;
+  animation: loader .7s infinite linear;
 }
-body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+
+@keyframes loader {
+  to {
+    transform: rotate(360deg);
+  }
 }
 

@@ -47,22 +47,6 @@ export default async function HomePage() {
     take: 2, // Ambil 2 petani untuk ditampilkan
   });
 
-  const dummyPetani = [
-    {
-      id: "1",
-      name: "Pak Darmuji Snarek",
-      lokasi: "Lembang, Jawa Barat",
-      imageUrl: "/images/petani1.jpg",
-      bio: "Menanam dengan hati, untuk hasil tani yang menyehatkan.",
-    },
-    {
-      id: "2",
-      name: "Ibu Nawik Tralis",
-      lokasi: "Pangalengan, Jawa Barat",
-      imageUrl: "/images/petani2.jpg",
-      bio: "Kualitas adalah janji dari lahan kami kepada Anda.",
-    },
-  ];
 
   return (
     <div className="bg-white">
@@ -211,7 +195,7 @@ export default async function HomePage() {
             <h2 className="text-3xl font-bold tracking-tight text-center text-slate-900 sm:text-4xl">
               Kenali Pahlawan Pangan Kita
             </h2>
-            <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div id="petani" className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
               {petani.map((farmer) => (
                 <FarmerCard key={farmer.id} farmer={farmer} />
               ))}
@@ -230,16 +214,17 @@ export default async function HomePage() {
               <FAQCard
                 question="Bagaimana cara memesan produk?"
                 answer="Anda bisa langsung menghubungi petani melalui tombol WhatsApp yang tersedia di halaman produk."
+                className="border-green-300"
               />
               <FAQCard
                 question="Apakah ada minimal pembelian?"
                 answer="Minimal pembelian tergantung kebijakan masing-masing petani. Biasanya tercantum di deskripsi produk."
-                initialOpen={true}
+                className="border-green-300"
               />
               <FAQCard
                 question="Bagaimana sistem pengiriman produk?"
                 answer="Pengiriman bisa dilakukan melalui jasa ekspedisi atau diambil langsung sesuai kesepakatan dengan petani."
-                className="border-green-200"
+                className="border-green-300"
               />
             </div>
           </div>

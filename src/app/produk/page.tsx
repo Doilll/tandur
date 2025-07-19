@@ -22,7 +22,7 @@ export default function ProdukPage() {
       setIsLoading(true);
       try {
         const query = searchTerm ? `?q=${encodeURIComponent(searchTerm)}` : '';
-        const response = await fetch(`/api/produk${query}`);
+        const response = await fetch(`/api/all-product${query}`);
         if (!response.ok) throw new Error('Failed to fetch products');
         const data = await response.json();
         setProduks(data);
