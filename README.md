@@ -1,4 +1,4 @@
-# Tandur: Platform Pemberdayaan Petani Melalui Transparansi Digital
+# Tandur: Farmer Empowerment Platform Through Digital Transparency
 
 [![Next.js](https://img.shields.io/badge/Next.js-Black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)](https://www.prisma.io/)
