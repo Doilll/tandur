@@ -5,7 +5,7 @@ export default function Loading() {
     <div className="flex items-center justify-center h-screen">
         <div className="loader">
             <Leaf className="w-12 h-12 animate-spin text-green-600" />
-        </div>;
+        </div>
     </div>
   )
 }
