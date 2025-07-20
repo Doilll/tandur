@@ -14,14 +14,3 @@ The development of the Tandur platform will utilize a modern and proven technolo
 3.  **Neon (Serverless PostgreSQL Database):** The choice for relational databases due to automatic scalability, separation of compute and storage, instant branches, full PostgreSQL compatibility, and cost efficiency.
 4.  **NextAuth.js (Authentication & Authorization):** For secure and flexible authentication management, with easy OAuth integration and proven security.
 5.  **Tailwind CSS (CSS Framework):** Used for fast UI/UX design, design consistency, high flexibility, and responsive by *default*.
-
-## System Architecture
-
-The system architecture of the Tandur platform is designed to be modern, scalable, and efficient, utilizing the latest technologies to ensure optimal performance and a seamless user experience.
-
-
-**Client (Browser):** The main interface for users to interact with the platform.
-**Next.js Page:** The core application *frontend*, responsible for page *rendering*, *routing*, and data request initiation. Can serve content via **SSR (Server-Side Rendering)** for fast and *SEO friendly* *loading*, or via **API Route** for dynamic data interaction after page load.
-**Prisma:** Serves as the ORM layer that bridges Next.js and the database, providing secure and *type-safe* data access, schema management, and consistency.
-**Database (Neon):** The main repository for all platform data (farmer information, products, transactions, users), utilizing the auto-scalability and *serverless* architecture of Neon.
-**Authentication Mechanism (NextAuth.js):** Integrated with Routes and Prisma APIs to manage user sessions, OAuth interactions, and validation of user information.
