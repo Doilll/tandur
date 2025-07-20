@@ -37,12 +37,17 @@ export default async function HomePage() {
     where: { role: "PETANI" },
     select: {
       id: true,
-      name: true,
-      username: true,
-      bio: true,
-      image: true, // URL of the profile picture
-      lokasi: true,
-      linkWhatsapp: true,
+      name: true, 
+      username: true, 
+      bio: true, 
+      lokasi: true, 
+      image: true, 
+      linkWhatsapp: true, 
+      _count: {
+        select: {
+          proyekTani: true,
+        },
+      },
     },
     take: 2, // Ambil 2 petani untuk ditampilkan
   });
