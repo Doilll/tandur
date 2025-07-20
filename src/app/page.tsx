@@ -51,6 +51,7 @@ export default async function HomePage() {
     },
     take: 2, // Ambil 2 petani untuk ditampilkan
   });
+  console.log("Petani data:", petani);
 
   return (
     <div className="bg-white">
@@ -204,7 +205,7 @@ export default async function HomePage() {
               className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2"
             >
               {petani.map((farmer) => (
-                <FarmerCard key={farmer.id} farmer={farmer} />
+                <FarmerCard key={farmer.id} petani={farmer} />
               ))}
             </div>
           </div>

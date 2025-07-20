@@ -10,7 +10,7 @@ export default function FarmerCard({ petani }: any) {
 
   return (
     <div className="group overflow-hidden rounded-xl border border-slate-200 shadow-sm transition-all hover:shadow-lg bg-white">
-      <Link href={`/petani/${username || id}`} className="block">
+      <Link href={`/petani/${username}`} className="block">
         <div className="relative h-48 w-full">
           <Image
             src={image || "/default-avatar.jpg"}
