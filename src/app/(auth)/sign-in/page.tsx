@@ -14,7 +14,7 @@ export default function SignInPage() {
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-slate-50">
       {/* Opsional: Tambahkan sentuhan visual yang berhubungan dengan pertanian */}
-      <div className="absolute inset-0 z-0 opacity-10">
+      <div className="absolute inset-0 z-0 opacity-32">
         <Image
           src="/favicon.png" // Ganti dengan gambar pattern/ilustrasi
           alt="Pattern Pertanian"
@@ -24,7 +24,7 @@ export default function SignInPage() {
       </div>
 
       <div className="relative z-10 w-full max-w-md p-4">
-        <Card className="shadow-lg border-slate-200">
+        <Card className="shadow-lg bg-white border-slate-200">
           <CardHeader className="text-center space-y-2">
             <Link href="/" className="inline-block mx-auto">
               <Image

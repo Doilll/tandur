@@ -24,11 +24,12 @@ async function checkProductOwnership(
 // GET: Mengambil detail satu produk (Bisa dibuat publik atau dilindungi)
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const produk = await prisma.produk.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         proyekTani: {
           select: {
@@ -59,7 +60,7 @@ export async function GET(
 // PUT: Memperbarui produk (Dilindungi + Validasi Kepemilikan)
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -67,8 +68,10 @@ export async function PUT(
       return NextResponse.json({ message: "Akses ditolak" }, { status: 403 });
     }
 
+    const { id } = await params;
+
     // Validasi kepemilikan produk sebelum update
-    const isOwner = await checkProductOwnership(params.id, session.user.id);
+    const isOwner = await checkProductOwnership(id, session.user.id);
     if (!isOwner) {
       return NextResponse.json(
         { message: "Produk tidak ditemukan atau Anda tidak punya izin" },
@@ -89,7 +92,7 @@ export async function PUT(
     } = body;
 
     const updatedProduk = await prisma.produk.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         namaProduk,
         deskripsi,
@@ -115,7 +118,7 @@ export async function PUT(
 // DELETE: Menghapus produk (Dilindungi + Validasi Kepemilikan)
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -123,8 +126,10 @@ export async function DELETE(
       return NextResponse.json({ message: "Akses ditolak" }, { status: 403 });
     }
 
+    const { id } = await params;
+
     // Validasi kepemilikan produk sebelum hapus
-    const isOwner = await checkProductOwnership(params.id, session.user.id);
+    const isOwner = await checkProductOwnership(id, session.user.id);
     if (!isOwner) {
       return NextResponse.json(
         { message: "Produk tidak ditemukan atau Anda tidak punya izin" },
@@ -133,7 +138,7 @@ export async function DELETE(
     }
 
     await prisma.produk.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json(

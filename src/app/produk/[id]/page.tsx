@@ -62,9 +62,9 @@ const getProdukData = async (id: string) => {
 export default async function ProductDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
   const produk = await getProdukData(id);
 
   return (
@@ -103,7 +103,6 @@ export default async function ProductDetail({
                 {produk.status}
               </span>
             </div>
-            
 
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               {produk.namaProduk}

@@ -25,6 +25,7 @@ const AuthNav = ({
 }) => {
   const { data: session, status } = useSession();
   const navTextColor = isScrolled ? "text-slate-900" : "text-white";
+
   // --- Tampilan Loading ---
   if (status === "loading") {
     return (
@@ -38,71 +39,80 @@ const AuthNav = ({
     const userInitial = user?.name?.charAt(0).toUpperCase() || "T";
 
     return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div className="relative h-10 w-10 rounded-full cursor-pointer">
-            <Avatar className="h-10 w-10">
-              <AvatarImage src={user.image!} alt={user.name!} />
-              <AvatarFallback>{userInitial}</AvatarFallback>
-            </Avatar>
-          </div>
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent
-          className="w-64 bg-white text-black border border-gray-200 shadow-xl rounded-xl p-2"
-          align="center"
-          forceMount
-        >
-          <DropdownMenuLabel className="pb-3 border-b border-gray-200">
-            <div className="flex items-center gap-3">
+      <div className="relative flex items-center justify-center">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="h-10 w-10 rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-shadow duration-200 flex items-center justify-center">
               <Avatar className="h-10 w-10">
-                <AvatarImage src={user.image ?? ""} alt={user.name ?? "User"} />
-                <AvatarFallback>
-                  {user?.name?.charAt(0).toUpperCase() ?? "T"}
-                </AvatarFallback>
+                <AvatarImage src={user.image!} alt={user.name!} />
+                <AvatarFallback>{userInitial}</AvatarFallback>
               </Avatar>
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold text-slate-800">
-                  {user.name}
-                </span>
-                <span className="text-xs text-slate-500">{user.email}</span>
+            </button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent
+            className="w-64 bg-white text-black border border-gray-200 shadow-xl rounded-xl p-2"
+            align="center"
+            alignOffset={0}
+            sideOffset={12}
+            avoidCollisions={true}
+            collisionPadding={8}
+            sticky="always"
+          >
+            <DropdownMenuLabel className="pb-3 border-b border-gray-200">
+              <div className="flex items-center gap-3">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage
+                    src={user.image ?? ""}
+                    alt={user.name ?? "User"}
+                  />
+                  <AvatarFallback>
+                    {user?.name?.charAt(0).toUpperCase() ?? "T"}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-slate-800">
+                    {user.name}
+                  </span>
+                  <span className="text-xs text-slate-500">{user.email}</span>
+                </div>
               </div>
-            </div>
-          </DropdownMenuLabel>
+            </DropdownMenuLabel>
 
-          <DropdownMenuSeparator />
+            <DropdownMenuSeparator />
 
-          <DropdownMenuItem
-            asChild
-            className="text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-md px-3 py-2"
-          >
-            <Link href="/dashboard">
-              <LayoutDashboard className="mr-2 h-4 w-4 inline" />
-              Dashboard
-            </Link>
-          </DropdownMenuItem>
+            <DropdownMenuItem
+              asChild
+              className="text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-md px-3 py-2"
+            >
+              <Link href="/dashboard">
+                <LayoutDashboard className="mr-2 h-4 w-4 inline" />
+                Dashboard
+              </Link>
+            </DropdownMenuItem>
 
-          <DropdownMenuItem
-            asChild
-            className="text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-md px-3 py-2"
-          >
-            <Link href={`/petani/${user.username}`}>
-              <User className="mr-2 h-4 w-4 inline" />
-              Profil
-            </Link>
-          </DropdownMenuItem>
+            <DropdownMenuItem
+              asChild
+              className="text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-md px-3 py-2"
+            >
+              <Link href={`/petani/${user.username}`}>
+                <User className="mr-2 h-4 w-4 inline" />
+                Profil
+              </Link>
+            </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
+            <DropdownMenuSeparator />
 
-          <DropdownMenuItem
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="cursor-pointer mt-1 text-center text-white font-semibold bg-green-600 hover:bg-green-700 transition-colors py-2 rounded-md"
-          >
-            <LogOut className="mr-2 h-4 w-4 inline" />
-            Logout
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+            <DropdownMenuItem
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="cursor-pointer mt-1 text-center text-white font-semibold bg-green-600 hover:bg-green-700 transition-colors py-2 rounded-md"
+            >
+              <LogOut className="mr-2 h-4 w-4 inline" />
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     );
   }
 
@@ -113,7 +123,7 @@ const AuthNav = ({
         <Button asChild className="w-full">
           <Link
             href="/sign-in"
-            className="px-4 py-2 rounded-4xl font-medium transition-colorsbg-transparent text-black border-2 hover:border-green-600"
+            className="px-4 py-2 rounded-4xl font-medium transition-colors bg-transparent text-black border-2 hover:border-green-600"
           >
             Login
           </Link>

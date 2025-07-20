@@ -7,7 +7,7 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
   const { username } = await params;
 
@@ -50,14 +50,14 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
   const session = await getServerSession({ req: request, ...authOptions });
   if (!session || session.user.role !== "PETANI") {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const { username } = params;
+  const { username } = await params;
   const body = await request.json();
   const { name, bio, lokasi, linkWhatsapp, image } = body;
   if (!name || !bio || !lokasi || !linkWhatsapp || !image) {
@@ -75,7 +75,7 @@ export async function PUT(
         bio,
         lokasi,
         linkWhatsapp,
-        image
+        image,
       },
     });
 

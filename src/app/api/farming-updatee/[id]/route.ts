@@ -6,9 +6,9 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const proyek = await prisma.proyekTani.findUnique({
@@ -43,7 +43,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -51,7 +51,7 @@ export async function PUT(
       return NextResponse.json({ message: "Akses ditolak" }, { status: 403 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { namaProyek, deskripsi, lokasiLahan } = body;
 
@@ -102,7 +102,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -110,7 +110,7 @@ export async function DELETE(
       return NextResponse.json({ message: "Akses ditolak" }, { status: 403 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Cek apakah proyek milik petani yang login
     const existingProyek = await prisma.proyekTani.findFirst({

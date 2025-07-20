@@ -87,9 +87,9 @@ const getProyekDetail = async (id: string) => {
 export default async function ProyekDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
   const proyek = await getProyekDetail(id);
 
   const getStatusIcon = () => {

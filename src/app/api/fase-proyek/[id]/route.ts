@@ -6,18 +6,24 @@ import { authOptions } from "@/lib/auth";
 // PUT /api/fase-proyek/[id]
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session || session.user.role !== "PETANI") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = params;
+  const { id } = await params;
   const body = await req.json();
   const { nama, slug, cerita, gambar, urutan } = body;
 
-  if (!nama || !slug || !cerita || !Array.isArray(gambar) || typeof urutan !== "number") {
+  if (
+    !nama ||
+    !slug ||
+    !cerita ||
+    !Array.isArray(gambar) ||
+    typeof urutan !== "number"
+  ) {
     return NextResponse.json({ error: "Data tidak lengkap" }, { status: 400 });
   }
 
@@ -32,7 +38,10 @@ export async function PUT(
   });
 
   if (!fase) {
-    return NextResponse.json({ error: "Fase tidak ditemukan atau bukan milik Anda" }, { status: 403 });
+    return NextResponse.json(
+      { error: "Fase tidak ditemukan atau bukan milik Anda" },
+      { status: 403 }
+    );
   }
 
   const updatedFase = await prisma.faseProyek.update({
@@ -46,20 +55,23 @@ export async function PUT(
     },
   });
 
-  return NextResponse.json({ message: "Fase berhasil diperbarui", data: updatedFase });
+  return NextResponse.json({
+    message: "Fase berhasil diperbarui",
+    data: updatedFase,
+  });
 }
 
 // DELETE /api/fase-proyek/[id]
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session || session.user.role !== "PETANI") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   // Pastikan fase itu milik proyek yang dimiliki petani yang login
   const fase = await prisma.faseProyek.findFirst({
@@ -72,7 +84,10 @@ export async function DELETE(
   });
 
   if (!fase) {
-    return NextResponse.json({ error: "Fase tidak ditemukan atau bukan milik Anda" }, { status: 403 });
+    return NextResponse.json(
+      { error: "Fase tidak ditemukan atau bukan milik Anda" },
+      { status: 403 }
+    );
   }
 
   await prisma.faseProyek.delete({ where: { id } });

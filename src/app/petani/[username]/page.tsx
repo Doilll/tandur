@@ -58,9 +58,9 @@ const getPetaniData = async (username: string) => {
 export default async function ProfilPetaniPage({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }) {
-  const { username } = params;
+  const { username } = await params;
   const petani = await getPetaniData(username);
 
   return (

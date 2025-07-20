@@ -47,7 +47,6 @@ export default async function HomePage() {
     take: 2, // Ambil 2 petani untuk ditampilkan
   });
 
-
   return (
     <div className="bg-white">
       <Navbar />
@@ -195,17 +194,17 @@ export default async function HomePage() {
             <h2 className="text-3xl font-bold tracking-tight text-center text-slate-900 sm:text-4xl">
               Kenali Pahlawan Pangan Kita
             </h2>
-            <div id="petani" className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div
+              id="petani"
+              className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2"
+            >
               {petani.map((farmer) => (
                 <FarmerCard key={farmer.id} farmer={farmer} />
               ))}
             </div>
           </div>
         </section>
-        <section
-          className="py-20 bg-white"
-          style={{ fontFamily: "mona-sans" }}
-        >
+        <section className="py-20 bg-white" style={{ fontFamily: "mona-sans" }}>
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold tracking-tight text-center text-slate-900 sm:text-4xl mb-8">
               Pertanyaan Yang Sering Diajukan

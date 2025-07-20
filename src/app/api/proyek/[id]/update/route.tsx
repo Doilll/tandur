@@ -8,12 +8,13 @@ import { authOptions } from "@/lib/auth";
 // GET: Mengambil semua farming update untuk satu proyek
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const updates = await prisma.farmingUpdate.findMany({
       where: {
-        proyekTaniId: params.id,
+        proyekTaniId: id,
       },
       orderBy: {
         createdAt: "desc", // Tampilkan yang terbaru di atas
@@ -31,9 +32,10 @@ export async function GET(
 // POST: Membuat farming update baru
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session?.user || session.user.role !== "PETANI") {
       return NextResponse.json({ message: "Akses ditolak" }, { status: 403 });
@@ -41,7 +43,7 @@ export async function POST(
 
     // Verifikasi kepemilikan proyek
     const proyek = await prisma.proyekTani.findFirst({
-      where: { id: params.id, petaniId: session.user.id },
+      where: { id: id, petaniId: session.user.id },
     });
     if (!proyek) {
       return NextResponse.json(
@@ -65,7 +67,7 @@ export async function POST(
         judul,
         deskripsi,
         fotoUrl: fotoUrl || [],
-        proyekTaniId: params.id,
+        proyekTaniId: id,
       },
     });
 
