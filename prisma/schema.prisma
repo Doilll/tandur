@@ -55,13 +55,15 @@ model User {
   bio           String?
   lokasi        String?
   linkWhatsapp  String?
-  role          Role         @default(PEMBELI)
+  role          Role         @default(PETANI)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   accounts      Account[]
   sessions      Session[]
   proyekTani    ProyekTani[]
   pesanan       Pesanan[]    @relation("PesananPembeli")
+  comments      Comment[]
+  likes         Like[]
 }
 
 model ProyekTani {
@@ -88,11 +90,40 @@ model FarmingUpdate {
   createdAt    DateTime   @default(now())
   proyekTaniId String
   proyekTani   ProyekTani @relation(fields: [proyekTaniId], references: [id], onDelete: Cascade)
+  comments     Comment[]
+  likes        Like[]
 
   @@index([proyekTaniId])
+  @@index([createdAt]) // For sorting by recent
 }
 
+model Comment {
+  id             String       @id @default(cuid())
+  content        String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  farmingUpdateId String
+  farmingUpdate  FarmingUpdate @relation(fields: [farmingUpdateId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
+  @@index([farmingUpdateId])
+  @@index([createdAt]) // For sorting by recent
+}
+
+model Like {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  farmingUpdateId String
+  farmingUpdate  FarmingUpdate @relation(fields: [farmingUpdateId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+
+  @@unique([userId, farmingUpdateId]) // Prevent duplicate likes
+  @@index([userId])
+  @@index([farmingUpdateId])
+}
 
 model FaseProyek {
   id           String   @id @default(cuid())
