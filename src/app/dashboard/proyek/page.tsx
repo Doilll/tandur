@@ -4,9 +4,6 @@ import { Button } from "@/components/ui/button";
 import FormProyekBaru from "@/components/FormProyekBaru";
 import DisplaySemuaProyek from "@/components/DisplaySemuaProyek";
 
-
-
-
 export default function ProyekDashboardPage() {
   const [proyek, setProyek] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); // Placeholder modal

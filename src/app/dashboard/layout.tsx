@@ -8,20 +8,21 @@ import { redirect } from "next/navigation";
 async function getPetaniData() {
   const session = await getServerSession(authOptions);
 
-  if (!session?.user?.username) {
-    redirect("/sign-in");
-  }
-
   const petani = await prisma.user.findUnique({
     where: {
-      username: session.user.username,
+      email: session?.user.email as string,
     },
     select: {
       name: true,
       email: true,
+      username: true,
       image: true,
     },
   });
+
+  if (!petani?.username) {
+    redirect("/setup");
+  }
 
   if (!petani) {
     redirect("/error-page");

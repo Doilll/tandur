@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import ProductCard from "@/components/ProductCard";
 import { Search, Loader2 } from "lucide-react";
@@ -6,7 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import {ProductWithFarmer} from "@/types"; 
+import { ProductWithFarmer } from "@/types";
+import Providers from "@/components/providers";
 
 export default function ProdukPage() {
   const searchParams = useSearchParams();
@@ -14,20 +15,20 @@ export default function ProdukPage() {
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(true);
   const [produks, setProduks] = useState<ProductWithFarmer[]>([]);
-  const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "");
 
   // Fetch products based on search term
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
-        const query = searchTerm ? `?q=${encodeURIComponent(searchTerm)}` : '';
+        const query = searchTerm ? `?q=${encodeURIComponent(searchTerm)}` : "";
         const response = await fetch(`/api/all-product${query}`);
-        if (!response.ok) throw new Error('Failed to fetch products');
+        if (!response.ok) throw new Error("Failed to fetch products");
         const data = await response.json();
         setProduks(data);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
       } finally {
         setIsLoading(false);
       }
@@ -44,9 +45,9 @@ export default function ProdukPage() {
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     if (searchTerm) {
-      params.set('q', searchTerm);
+      params.set("q", searchTerm);
     } else {
-      params.delete('q');
+      params.delete("q");
     }
     router.replace(`${pathname}?${params.toString()}`);
   }, [searchTerm, pathname, router, searchParams]);
@@ -58,7 +59,9 @@ export default function ProdukPage() {
 
   return (
     <>
+    <Providers>
       <Navbar />
+      </Providers>
       <div className="max-w-6xl mx-auto py-12 px-4 sm:px-8 pt-28 min-h-screen">
         <h1 className="text-4xl font-extrabold text-slate-800 mb-7 text-center tracking-tight">
           Produk Petani
@@ -98,11 +101,13 @@ export default function ProdukPage() {
             ) : (
               <div className="col-span-full text-center py-12">
                 <p className="text-slate-500 text-lg mb-2">
-                  {searchTerm ? 'Produk tidak ditemukan' : 'Tidak ada produk tersedia'}
+                  {searchTerm
+                    ? "Produk tidak ditemukan"
+                    : "Tidak ada produk tersedia"}
                 </p>
                 {searchTerm && (
                   <button
-                    onClick={() => setSearchTerm('')}
+                    onClick={() => setSearchTerm("")}
                     className="text-green-600 hover:text-green-800 font-medium"
                   >
                     Tampilkan semua produk

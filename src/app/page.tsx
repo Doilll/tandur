@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import prisma from "@/lib/prisma";
 import FAQCard from "@/components/FAQCard";
+import Providers from "@/components/providers";
 
 export default async function HomePage() {
   const produks = await prisma.produk.findMany({
@@ -37,12 +38,12 @@ export default async function HomePage() {
     where: { role: "PETANI" },
     select: {
       id: true,
-      name: true, 
-      username: true, 
-      bio: true, 
-      lokasi: true, 
-      image: true, 
-      linkWhatsapp: true, 
+      name: true,
+      username: true,
+      bio: true,
+      lokasi: true,
+      image: true,
+      linkWhatsapp: true,
       _count: {
         select: {
           proyekTani: true,
@@ -51,11 +52,12 @@ export default async function HomePage() {
     },
     take: 2, // Ambil 2 petani untuk ditampilkan
   });
-  console.log("Petani data:", petani);
 
   return (
     <div className="bg-white">
-      <Navbar />
+      <Providers>
+        <Navbar />
+      </Providers>
       <main>
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">

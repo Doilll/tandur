@@ -7,13 +7,13 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ username: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { username } = await params;
+  const { id } = await params;
 
   try {
     const petani = await prisma.user.findUnique({
-      where: { username },
+      where: { id },
       select: {
         id: true,
         name: true,
@@ -50,14 +50,14 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ username: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession({ req: request, ...authOptions });
   if (!session || session.user.role !== "PETANI") {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const { username } = await params;
+  const { id } = await params;
   const body = await request.json();
   const { name, bio, lokasi, linkWhatsapp, image } = body;
   if (!name || !bio || !lokasi || !linkWhatsapp || !image) {
@@ -69,7 +69,7 @@ export async function PUT(
 
   try {
     const petani = await prisma.user.update({
-      where: { username },
+      where: { id },
       data: {
         name,
         bio,
@@ -81,7 +81,7 @@ export async function PUT(
 
     return NextResponse.json({ data: petani }, { status: 200 });
   } catch (error) {
-    console.error("Error PUT /api/petani/[username]:", error);
+    console.error("Error PUT /api/petani/[id]:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }

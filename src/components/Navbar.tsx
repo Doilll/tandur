@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Menu, X, User, LayoutDashboard, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useSession, signOut, SessionProvider } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -171,7 +171,7 @@ const Navbar = () => {
   };
 
   return (
-    <SessionProvider>
+  
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isHomePage && !isScrolled
@@ -265,7 +265,6 @@ const Navbar = () => {
           </div>
         )}
       </nav>
-    </SessionProvider>
   );
 };
 

@@ -39,15 +39,15 @@ const FarmerPortfolio = ({ petani }: { petani: any }) => {
               )}
               
               {petani.linkWhatsapp && (
-                <Link 
-                  href={petani.linkWhatsapp} 
+                <a 
+                  href={`https://wa.me/${petani.linkWhatsapp}`} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 transition"
                 >
                   <Phone className="w-4 h-4 mr-1" />
                   <span>Hubungi via WhatsApp</span>
-                </Link>
+                </a>
               )}
               
               {petani.email && (

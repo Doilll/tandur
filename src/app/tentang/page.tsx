@@ -1,11 +1,14 @@
-import { Leaf, Target, Users, Heart, Shield, TrendingUp } from "lucide-react";
+import { Target, Users, Heart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Providers from "@/components/providers";
 
 export default function AboutPage() {
   return (
     <>
-      <Navbar />
+      <Providers>
+        <Navbar />
+      </Providers>
       <div className="max-w-6xl mx-auto px-4 py-12 mt-16">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -66,7 +69,8 @@ export default function AboutPage() {
                 </h2>
               </div>
               <p className="text-lg text-gray-700 mb-4">
-                Tandur memberikan alat untuk mengelola usaha tani secara digital:
+                Tandur memberikan alat untuk mengelola usaha tani secara
+                digital:
               </p>
               <div className="grid gap-4">
                 <div className="p-4 bg-white rounded-lg shadow-sm">

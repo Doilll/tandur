@@ -44,10 +44,10 @@ export default function FarmerSettings() {
   // Fetch existing profile data
   useEffect(() => {
     const fetchProfile = async () => {
-      if (!session?.user?.username) return;
+      if (!session?.user?.id) return;
 
       try {
-        const response = await fetch(`/api/petani/${session.user.username}`);
+        const response = await fetch(`/api/petani/${session.user.id}`);
         if (!response.ok) throw new Error("Gagal memuat profil");
         const data = await response.json();
         const petani = {
@@ -56,7 +56,7 @@ export default function FarmerSettings() {
           lokasi: data.data.lokasi ?? "",
           linkWhatsapp: data.data.linkWhatsapp ?? "",
           image: data.data.image ?? "",
-            username: data.data.username ?? "",
+          username: data.data.username ?? "",
         };
         setProfile(petani);
         setImagePreview(data.data.image);
@@ -120,7 +120,7 @@ export default function FarmerSettings() {
         image: imageUrl,
       };
 
-      const response = await fetch(`/api/petani/${session?.user?.username}`, {
+      const response = await fetch(`/api/petani/${session?.user?.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

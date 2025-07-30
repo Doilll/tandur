@@ -2,6 +2,9 @@ import prisma from "@/lib/prisma";
 import FarmerPortfolio from "@/components/FarmerPortofolio";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { redirect } from "next/navigation";
+import Providers from "@/components/providers";
+
 
 const getPetaniData = async (username: string) => {
   try {
@@ -60,12 +63,18 @@ export default async function ProfilPetaniPage({
 }: {
   params: Promise<{ username: string }>;
 }) {
+  if (!params) {
+    redirect("/setup");
+  }
+
   const { username } = await params;
   const petani = await getPetaniData(username);
 
   return (
     <>
+      <Providers>
       <Navbar />
+      </Providers>
       <FarmerPortfolio petani={petani} />
       <Footer />
     </>

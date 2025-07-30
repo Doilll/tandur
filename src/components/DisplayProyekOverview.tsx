@@ -111,25 +111,6 @@ export default function DisplayProyekOverview({
           </svg>
         </div>
         <p className="text-gray-500 mb-4">Belum ada proyek</p>
-        <Link
-          href="/dashboard/proyek/create"
-          className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-        >
-          <svg
-            className="w-4 h-4 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
-          Buat Proyek Baru
-        </Link>
       </div>
     );
   }
@@ -160,15 +141,9 @@ export default function DisplayProyekOverview({
       <div className="flex gap-3 pt-4">
         <Link
           href="/dashboard/proyek"
-          className="flex-1 py-2 text-center border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex-1 py-2 text-center border bg-green-600 border-gray-300 rounded-lg hover:bg-green-700 transition-colors text-white font-medium"
         >
           Kelola Proyek
-        </Link>
-        <Link
-          href="/dashboard/proyek/create"
-          className="flex-1 py-2 text-center bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-        >
-          Buat Proyek Baru
         </Link>
       </div>
     </div>
