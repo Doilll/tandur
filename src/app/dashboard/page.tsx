@@ -82,7 +82,7 @@ export default function DashboardOverviewPage() {
 
   return (
     <>
-      <div className="space-y-6 md:space-y-8">
+      <div className="space-y-6 md:space-y-8 p-5 lg:p-5 sm:p-6">
         {/* Grid untuk Kartu Statistik */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
           <StatCard

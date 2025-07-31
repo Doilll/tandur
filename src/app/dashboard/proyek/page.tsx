@@ -48,7 +48,7 @@ export default function ProyekDashboardPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-5 lg:p-4 sm:p-6 ">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold text-slate-800">Proyek Tani Anda</h1>
         <Button
