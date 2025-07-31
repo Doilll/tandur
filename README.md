@@ -7,7 +7,7 @@
 [![NextAuth.js](https://img.shields.io/badge/NextAuth.js-236262?style=for-the-badge&logo=Next.js&logoColor=white)](https://next-auth.js.org/)
 
 
-The development of the Tandur platform will utilize a modern and proven technology stack to ensure scalability, optimal performance, data security and responsive user experience.
+The development of the Tandur platform utilize a modern and proven technology stack to ensure scalability, optimal performance, data security and responsive user experience.
 
 1.  **Next.js (Frontend Framework):** Chosen for SSR & SSG, rapid development, automatic image optimization, and scalability.
 2.  **Prisma (ORM - Object-Relational Mapper):** Used for *type-safe* database interaction, easy schema migration, and intuitive queries.
