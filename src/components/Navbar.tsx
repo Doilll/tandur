@@ -171,100 +171,103 @@ const Navbar = () => {
   };
 
   return (
-  
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isHomePage && !isScrolled
-            ? "bg-transparent"
-            : "bg-white/80 shadow-md backdrop-blur-sm"
-        }`}
-      >
-        <div className="w-full px-4 md:px-6 lg:px-8">
-          <div
-            className="flex items-center justify-between h-20"
-            style={{ fontFamily: "mona-sans" }}
-          >
-            <Link href="/" className="flex items-center space-x-3">
-              <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-100">
-                <Image
-                  src="/favicon.png"
-                  alt="Tandur Logo"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
-              </div>
-              <span className={`text-2xl font-bold ${navTextColor}`}>
-                Tandur
-              </span>
-            </Link>
-
-            <div className="hidden md:flex items-center space-x-8">
-              <Link
-                href="/tentang"
-                className={`hover:text-green-500 transition-colors ${navTextColor}`}
-              >
-                Tentang
-              </Link>
-              <Link
-                href="/produk"
-                className={`hover:text-green-500 transition-colors ${navTextColor}`}
-              >
-                Produk
-              </Link>
-              <Link
-                href="/petani"
-                className={`hover:text-green-500 transition-colors ${navTextColor}`}
-              >
-                Petani
-              </Link>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isHomePage && !isScrolled
+          ? "bg-transparent"
+          : "bg-white/80 shadow-md backdrop-blur-sm"
+      }`}
+    >
+      <div className="w-full px-4 md:px-6 lg:px-8">
+        <div
+          className="flex items-center justify-between h-20"
+          style={{ fontFamily: "mona-sans" }}
+        >
+          <Link href="/" className="flex items-center space-x-3">
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-100">
+              <Image
+                src="/favicon.png"
+                alt="Tandur Logo"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
             </div>
+            <span className={`text-2xl font-bold ${navTextColor}`}>Tandur</span>
+          </Link>
 
-            <div className="hidden md:block">
-              <AuthButtons />
-            </div>
-
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`md:hidden ${navTextColor}`}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link
+              href="/tentang"
+              className={`hover:text-green-500 transition-colors ${navTextColor}`}
             >
-              {isMobileMenuOpen ? (
-                <X className="w-7 h-7" />
-              ) : (
-                <Menu className="w-7 h-7" />
-              )}
-            </button>
+              Tentang
+            </Link>
+            <Link
+              href="/produk"
+              className={`hover:text-green-500 transition-colors ${navTextColor}`}
+            >
+              Produk
+            </Link>
+            <Link
+              href="/petani"
+              className={`hover:text-green-500 transition-colors ${navTextColor}`}
+            >
+              Petani
+            </Link>
+            <Link
+              href="/jejak"
+              className={`hover:text-green-500 transition-colors ${navTextColor}`}
+            >
+              Jejak Tani
+            </Link>
+          </div>
+
+          <div className="hidden md:block">
+            <AuthButtons />
+          </div>
+
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`md:hidden ${navTextColor}`}
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-7 h-7" />
+            ) : (
+              <Menu className="w-7 h-7" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white/95 backdrop-blur-sm border-t">
+          <div className="px-4 pt-4 pb-6 space-y-4">
+            <Link
+              href="/tentang"
+              className="block text-slate-700 hover:text-green-600"
+            >
+              Tentang
+            </Link>
+            <Link
+              href="/produk"
+              className="block text-slate-700 hover:text-green-600"
+            >
+              Produk
+            </Link>
+            <Link
+              href="/petani"
+              className="block text-slate-700 hover:text-green-600"
+            >
+              Petani
+            </Link>
+            <div className="border-t pt-4">
+              <AuthButtons mobile={true} />
+            </div>
           </div>
         </div>
-
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-white/95 backdrop-blur-sm border-t">
-            <div className="px-4 pt-4 pb-6 space-y-4">
-              <Link
-                href="/tentang"
-                className="block text-slate-700 hover:text-green-600"
-              >
-                Tentang
-              </Link>
-              <Link
-                href="/produk"
-                className="block text-slate-700 hover:text-green-600"
-              >
-                Produk
-              </Link>
-              <Link
-                href="/petani"
-                className="block text-slate-700 hover:text-green-600"
-              >
-                Petani
-              </Link>
-              <div className="border-t pt-4">
-                <AuthButtons mobile={true} />
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+      )}
+    </nav>
   );
 };
 
