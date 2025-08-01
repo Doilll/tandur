@@ -1,15 +1,10 @@
 import { Leaf, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import Providers from "@/components/providers";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+
 
 export default function NotFound() {
   return (
     <>
-      <Providers>
-        <Navbar />
-      </Providers>
       <div className="min-h-screen flex flex-col items-center justify-center bg-green-50 px-6 text-center">
         <Leaf className="text-green-600 w-16 h-16 mb-4" />
 
@@ -29,7 +24,6 @@ export default function NotFound() {
           Kembali ke Beranda
         </Link>
       </div>
-      <Footer />
     </>
   );
 }

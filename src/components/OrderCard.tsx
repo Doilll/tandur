@@ -60,7 +60,7 @@ const OrderCard = ({ whatsappLink, productName }: ProductInteractionProps) => {
 
         <button 
           onClick={handleShare}
-          className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+          className="p-3 border flex items-center justify-center border-gray-300 rounded-lg hover:bg-gray-50 transition"
         >
           <Share2 className="w-5 h-5" />
         </button>

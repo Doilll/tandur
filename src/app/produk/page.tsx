@@ -2,12 +2,9 @@
 
 import ProductCard from "@/components/ProductCard";
 import { Search, Loader2 } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ProductWithFarmer } from "@/types";
-import Providers from "@/components/providers";
 
 export default function ProdukPage() {
   const searchParams = useSearchParams();
@@ -59,9 +56,6 @@ export default function ProdukPage() {
 
   return (
     <>
-    <Providers>
-      <Navbar />
-      </Providers>
       <div className="max-w-6xl mx-auto py-12 px-4 sm:px-8 pt-28 min-h-screen">
         <h1 className="text-4xl font-extrabold text-slate-800 mb-7 text-center tracking-tight">
           Produk Petani
@@ -118,7 +112,6 @@ export default function ProdukPage() {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 }

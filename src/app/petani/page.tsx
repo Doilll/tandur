@@ -2,11 +2,8 @@
 
 import FarmerCard from "@/components/FarmerCard";
 import { Search, Loader2 } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import Providers from "@/components/providers";
 
 interface FarmerData {
   id: string;
@@ -67,9 +64,6 @@ export default function PetaniPage() {
 
   return (
     <>
-    <Providers>
-      <Navbar />
-      </Providers>
       <div className="max-w-6xl mx-auto py-12 px-4 sm:px-8 pt-28 min-h-screen">
         <h1 className="text-4xl font-extrabold text-slate-800 mb-7 text-center tracking-tight">
           Petani Terpercaya
@@ -124,7 +118,6 @@ export default function PetaniPage() {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 }

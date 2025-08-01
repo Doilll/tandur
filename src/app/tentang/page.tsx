@@ -1,14 +1,8 @@
 import { Target, Users, Heart } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import Providers from "@/components/providers";
 
 export default function AboutPage() {
   return (
     <>
-      <Providers>
-        <Navbar />
-      </Providers>
       <div className="max-w-6xl mx-auto px-4 py-12 mt-16">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -209,7 +203,6 @@ export default function AboutPage() {
           </div>
         </section>
       </div>
-      <Footer />
     </>
   );
 }

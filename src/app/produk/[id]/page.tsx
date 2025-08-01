@@ -11,10 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import ProductImages from "@/components/ProductImages";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import HandleShare from "@/components/HandleShare";
-import Providers from "@/components/providers";
+
 
 
 const getProdukData = async (id: string) => {
@@ -71,9 +68,6 @@ export default async function ProductDetail({
 
   return (
     <>
-      <Providers>
-      <Navbar />
-      </Providers>
       <main className="max-w-6xl mx-auto px-4 py-8 mt-16">
         {/* Back Button */}
         <Link
@@ -202,7 +196,6 @@ export default async function ProductDetail({
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

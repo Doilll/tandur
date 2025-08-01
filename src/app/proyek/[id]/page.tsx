@@ -17,10 +17,7 @@ import {
   Clock,
   Leaf,
 } from "lucide-react";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import HandleShare from "@/components/HandleShare";
-import Providers from "@/components/providers";
 
 const getProyekDetail = async (id: string) => {
   try {
@@ -119,9 +116,6 @@ export default async function ProyekDetail({
 
   return (
     <>
-      <Providers>
-      <Navbar />
-      </Providers>
       <div className="max-w-6xl mx-auto px-4 py-8 mt-16">
         {/* Project Header */}
         <div className="flex flex-col md:flex-row gap-8 mb-8">
@@ -310,7 +304,6 @@ export default async function ProyekDetail({
           )}
         </section>
       </div>
-      <Footer />
     </>
   );
 }

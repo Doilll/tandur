@@ -215,17 +215,17 @@ export default async function HomePage() {
               <FAQCard
                 question="Bagaimana cara memesan produk?"
                 answer="Anda bisa langsung menghubungi petani melalui tombol WhatsApp yang tersedia di halaman produk."
-                className="border-green-300"
+                className="border-green-500"
               />
               <FAQCard
                 question="Apakah ada minimal pembelian?"
                 answer="Minimal pembelian tergantung kebijakan masing-masing petani. Biasanya tercantum di deskripsi produk."
-                className="border-green-300"
+                className="border-green-500"
               />
               <FAQCard
                 question="Bagaimana sistem pengiriman produk?"
                 answer="Pengiriman bisa dilakukan melalui jasa ekspedisi atau diambil langsung sesuai kesepakatan dengan petani."
-                className="border-green-300"
+                className="border-green-500"
               />
             </div>
           </div>
