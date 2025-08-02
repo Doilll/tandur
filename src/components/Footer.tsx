@@ -67,7 +67,7 @@ const Footer = () => (
           <h3 className="text-lg font-semibold mb-4">Kontak</h3>
           <ul className="space-y-2 text-slate-400">
             <li>Email: webtandur@gmail.com</li>
-            <li>Telepon: (021) 123-4567</li>
+            <li>Telepon: (+62) 821-4347-1111</li>
             <li>Alamat: Surabaya, Indonesia</li>
           </ul>
         </div>

@@ -115,35 +115,49 @@ export default async function HomePage() {
             </p>
             <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-3">
               <div className="flex flex-col items-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600">
-                  <Users className="h-8 w-8" />
+                <h3 className="text-xl font-semibold text-slate-900">
+                  Harga Adil
+                </h3>
+                <div className="mt-4 flex h-24 w-24 items-center justify-center">
+                  <img
+                    src="/images/harga.svg"
+                    alt="Harga Adil"
+                    className="h-24 w-24"
+                  />
                 </div>
-                <h3 className="mt-4 text-xl font-semibold">Harga Adil</h3>
-                <p className="mt-2 text-slate-500">
+                <p className="mt-4 text-slate-500">
                   Petani menentukan harganya sendiri. Keuntungan maksimal
                   kembali ke mereka, bukan tengkulak.
                 </p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600">
-                  <Leaf className="h-8 w-8" />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold">
+                <h3 className="text-xl font-semibold text-slate-900">
                   Kualitas Terjamin
                 </h3>
-                <p className="mt-2 text-slate-500">
+                <div className="mt-4 flex h-24 w-24 items-center justify-center">
+                  <img
+                    src="/images/kualitas.svg"
+                    alt="Kualitas Terjamin"
+                    className="h-24 w-24"
+                  />
+                </div>
+                <p className="mt-4 text-slate-500">
                   Dapatkan produk paling segar langsung dari sumbernya, dipanen
                   sesaat sebelum dikirim.
                 </p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600">
-                  <ShieldCheck className="h-8 w-8" />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold">
+                <h3 className="text-xl font-semibold text-slate-900">
                   Transparansi Penuh
                 </h3>
-                <p className="mt-2 text-slate-500">
+                <div className="mt-4 flex h-24 w-24 items-center justify-center">
+                  <img
+                    src="/images/transparansi.svg"
+                    alt="Transparansi Penuh"
+                    className="h-24 w-24"
+                  />
+                </div>
+                <p className="mt-4 text-slate-500">
                   Ikuti perjalanan tanam lewat update rutin dari petani. Anda
                   tahu persis apa yang Anda konsumsi.
                 </p>

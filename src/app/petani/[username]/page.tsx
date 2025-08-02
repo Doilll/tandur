@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import { redirect } from "next/navigation";
 import Providers from "@/components/providers";
 
-
 const getPetaniData = async (username: string) => {
   try {
     const petani = await prisma.user.findUnique({
@@ -73,10 +72,9 @@ export default async function ProfilPetaniPage({
   return (
     <>
       <Providers>
-      <Navbar />
+        <Navbar />
       </Providers>
       <FarmerPortfolio petani={petani} />
-      <Footer />
     </>
   );
 }

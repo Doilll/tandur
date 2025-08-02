@@ -46,15 +46,65 @@ export default function LiveChat() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = inputText.trim();
     setInputText("");
     setIsTyping(true);
 
-    // TODO: Send message to admin via WebSocket/API
-    // For now, simulate typing indicator
-    setTimeout(() => {
+    try {
+      // Convert messages to the format expected by the API
+      const apiMessages = messages.map((msg) => ({
+        role: msg.sender === "user" ? "user" : "assistant",
+        content: msg.text,
+      }));
+
+      // Add current user message
+      apiMessages.push({
+        role: "user",
+        content: currentInput,
+      });
+
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: apiMessages,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Add AI response to messages
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: data.text || "Maaf, terjadi kesalahan. Silakan coba lagi.",
+        sender: "admin",
+        timestamp: new Date(),
+        senderName: "Eco Helper",
+      };
+
+      setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+
+      // Show error message to user
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: "Maaf, terjadi kesalahan saat menghubungi server. Silakan coba lagi.",
+        sender: "admin",
+        timestamp: new Date(),
+        senderName: "System",
+      };
+
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-      // In real implementation, admin will respond via dashboard
-    }, 2000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

@@ -120,7 +120,7 @@ export default async function ProyekDetail({
   return (
     <>
       <Providers>
-      <Navbar />
+        <Navbar />
       </Providers>
       <div className="max-w-6xl mx-auto px-4 py-8 mt-16">
         {/* Project Header */}
@@ -310,7 +310,6 @@ export default async function ProyekDetail({
           )}
         </section>
       </div>
-      <Footer />
     </>
   );
 }
