@@ -50,7 +50,6 @@ export async function PUT(
     if (!session || session.user.role !== "PETANI") {
       return NextResponse.json({ message: "Akses ditolak" }, { status: 403 });
     }
-
     const { id } = await params;
     const body = await request.json();
     const { namaProyek, deskripsi, lokasiLahan } = body;

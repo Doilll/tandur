@@ -29,7 +29,6 @@ export default function ProductCard({ produk }: any) {
           <p className="text-sm text-slate-500 flex items-center gap-1 mt-1">
             <User2 className="w-4 h-4 text-slate-400" />
             oleh {petani && petani.name ? petani.name : "Unknown"}
-            {petani && petani.lokasi ? petani.lokasi : "Unknown"}
             <MapPin className="w-4 h-4 text-slate-400 ml-2" />
             {petani && petani.lokasi ? petani.lokasi : "Unknown"}
           </p>

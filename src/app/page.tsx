@@ -100,7 +100,7 @@ export default async function HomePage() {
                 className="hover:border"
                 asChild
               >
-                <Link href="#tentang">Pelajari Lebih Lanjut</Link>
+                <Link href="/tentang">Pelajari Lebih Lanjut</Link>
               </Button>
             </div>
           </div>
