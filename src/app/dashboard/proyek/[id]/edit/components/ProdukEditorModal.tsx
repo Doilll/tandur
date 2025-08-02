@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { Upload, X, Calendar, Package, DollarSign, Scale } from "lucide-react";
+import FileDropzone from "@/components/FileDropzone";
 
 export interface ProdukFormData {
   id?: string;
@@ -326,38 +327,10 @@ export const ProdukEditorModal = ({
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Foto Produk
               </label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-green-400 transition-colors">
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={(e) =>
-                    e.target.files && handleFileUpload(e.target.files)
-                  }
-                  className="hidden"
-                  id="produk-images"
-                  disabled={isUploading}
-                />
-                <label
-                  htmlFor="produk-images"
-                  className="cursor-pointer flex flex-col items-center gap-2"
-                >
-                  <Upload
-                    size={24}
-                    className={`${
-                      isUploading ? "text-green-500" : "text-gray-400"
-                    }`}
-                  />
-                  <span className="text-sm text-gray-600">
-                    {isUploading
-                      ? "Mengupload..."
-                      : "Klik untuk upload atau drag & drop"}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    PNG, JPG, JPEG hingga 10MB
-                  </span>
-                </label>
-              </div>
+              <FileDropzone
+               onFilesDrop={handleFileUpload}
+               id="produk-images"
+              />
 
               {produkData.fotoUrl.length > 0 && (
                 <div className="mt-4">

@@ -1,6 +1,9 @@
 import prisma from "@/lib/prisma";
 import FarmerPortfolio from "@/components/FarmerPortofolio";
 import { redirect } from "next/navigation";
+import Providers from "@/components/providers";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 
 const getPetaniData = async (username: string) => {
@@ -67,5 +70,13 @@ export default async function ProfilPetaniPage({
   const { username } = await params;
   const petani = await getPetaniData(username);
 
-  return <FarmerPortfolio petani={petani} />;
+  return(
+    <>
+    <Providers>
+      <Navbar />
+    </Providers>
+    <FarmerPortfolio petani={petani} />
+    <Footer />
+    </>
+  ) 
 }

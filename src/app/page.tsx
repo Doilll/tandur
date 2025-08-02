@@ -6,6 +6,9 @@ import ProductCard from "@/components/ProductCard";
 import FarmerCard from "@/components/FarmerCard";
 import prisma from "@/lib/prisma";
 import FAQCard from "@/components/FAQCard";
+import Navbar from "@/components/Navbar";
+import Providers from "@/components/providers";
+import Footer from "@/components/Footer";
 
 export default async function HomePage() {
   const produks = await prisma.produk.findMany({
@@ -52,6 +55,9 @@ export default async function HomePage() {
 
   return (
     <div className="bg-white">
+              <Providers>
+                <Navbar />
+              </Providers>
       <main>
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
@@ -231,6 +237,7 @@ export default async function HomePage() {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

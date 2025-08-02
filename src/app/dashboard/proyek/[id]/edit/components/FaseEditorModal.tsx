@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { Upload, X } from "lucide-react";
 import { FaseFormData } from "../page";
+import FileDropzone from "@/components/FileDropzone";
 
 interface FaseEditorModalProps {
   isOpen: boolean;
@@ -133,27 +134,10 @@ export const FaseEditorModal = ({
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Foto Fase
               </label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={(e) =>
-                    e.target.files && handleFileUpload(e.target.files)
-                  }
-                  className="hidden"
-                  id="fase-images"
-                />
-                <label
-                  htmlFor="fase-images"
-                  className="cursor-pointer flex flex-col items-center gap-2"
-                >
-                  <Upload size={24} className="text-gray-400" />
-                  <span className="text-sm text-gray-600">
-                    Klik untuk upload atau drag & drop
-                  </span>
-                </label>
-              </div>
+              <FileDropzone
+                onFilesDrop={handleFileUpload}
+                id="fase-images"
+              />
               {faseData.gambar.length > 0 && (
                 <div className="mt-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                   {faseData.gambar.map((imageUrl, index) => (

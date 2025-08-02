@@ -11,6 +11,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import ProductImages from "@/components/ProductImages";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import Providers from "@/components/providers";
 
 
 
@@ -68,6 +71,9 @@ export default async function ProductDetail({
 
   return (
     <>
+    <Providers>
+      <Navbar />
+    </Providers>
       <main className="max-w-6xl mx-auto px-4 py-8 mt-16">
         {/* Back Button */}
         <Link
@@ -196,6 +202,7 @@ export default async function ProductDetail({
           </div>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

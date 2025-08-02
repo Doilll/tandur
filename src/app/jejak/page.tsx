@@ -1,8 +1,10 @@
-// app/jejak/page.tsx
 
 import { getJejakTaniUpdates } from "@/lib/actions/jejak.actions";
 import JejakTaniCard from "@/components/cards/JejakTaniCard";
 import { Plus, Sprout } from "lucide-react";
+import Providers from "@/components/providers";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Jejak Tani | Tandur",
@@ -119,6 +121,10 @@ export default async function JejakTaniPage() {
   const updates = await getJejakTaniUpdates();
 
   return (
+    <>
+    <Providers>
+      <Navbar />
+    </Providers>
     <div className="min-h-screen bg-gray-50 mt-20">
       {/* Stats Section */}
       <StatsSection updateCount={updates?.length || 0} />
@@ -139,5 +145,7 @@ export default async function JejakTaniPage() {
         )}
       </main>
     </div>
+    <Footer />
+    </>
   );
 }
