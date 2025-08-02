@@ -2,12 +2,12 @@
 
 import ProductCard from "@/components/ProductCard";
 import { Search, Loader2 } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ProductWithFarmer } from "@/types";
 import Providers from "@/components/providers";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function ProdukPage() {
   const searchParams = useSearchParams();

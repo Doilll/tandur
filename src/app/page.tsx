@@ -6,6 +6,9 @@ import ProductCard from "@/components/ProductCard";
 import FarmerCard from "@/components/FarmerCard";
 import prisma from "@/lib/prisma";
 import FAQCard from "@/components/FAQCard";
+import Navbar from "@/components/Navbar";
+import Providers from "@/components/providers";
+import Footer from "@/components/Footer";
 
 export default async function HomePage() {
   const produks = await prisma.produk.findMany({
@@ -52,6 +55,9 @@ export default async function HomePage() {
 
   return (
     <div className="bg-white">
+              <Providers>
+                <Navbar />
+              </Providers>
       <main>
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
@@ -94,7 +100,7 @@ export default async function HomePage() {
                 className="hover:border"
                 asChild
               >
-                <Link href="#tentang">Pelajari Lebih Lanjut</Link>
+                <Link href="/tentang">Pelajari Lebih Lanjut</Link>
               </Button>
             </div>
           </div>
@@ -229,22 +235,23 @@ export default async function HomePage() {
               <FAQCard
                 question="Bagaimana cara memesan produk?"
                 answer="Anda bisa langsung menghubungi petani melalui tombol WhatsApp yang tersedia di halaman produk."
-                className="border-green-300"
+                className="border-green-500"
               />
               <FAQCard
                 question="Apakah ada minimal pembelian?"
                 answer="Minimal pembelian tergantung kebijakan masing-masing petani. Biasanya tercantum di deskripsi produk."
-                className="border-green-300"
+                className="border-green-500"
               />
               <FAQCard
                 question="Bagaimana sistem pengiriman produk?"
                 answer="Pengiriman bisa dilakukan melalui jasa ekspedisi atau diambil langsung sesuai kesepakatan dengan petani."
-                className="border-green-300"
+                className="border-green-500"
               />
             </div>
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

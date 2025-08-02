@@ -17,10 +17,10 @@ import {
   Clock,
   Leaf,
 } from "lucide-react";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import HandleShare from "@/components/HandleShare";
 import Providers from "@/components/providers";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const getProyekDetail = async (id: string) => {
   try {

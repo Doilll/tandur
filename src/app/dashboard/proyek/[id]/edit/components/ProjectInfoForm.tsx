@@ -65,15 +65,13 @@ export const ProjectInfoForm = ({
           </label>
           <select
             value={formData.status}
-            onChange={(e) =>
-              onFormChange("status", e.target.value as StatusProyek)
-            }
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            onChange={(e) => {
+              onFormChange("status", e.target.value as StatusProyek);
+            }}
           >
             {Object.values(StatusProyek).map((status) => (
               <option key={status} value={status}>
-                {status.charAt(0) +
-                  status.slice(1).toLowerCase().replace("_", " ")}
+                {status}
               </option>
             ))}
           </select>

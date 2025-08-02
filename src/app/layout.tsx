@@ -43,9 +43,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} scrollbar-none antialiased`}
         suppressHydrationWarning={true}
       >
-        <Providers>
-          <Navbar />
-        </Providers>
         {children}
         <ChatbotWrapper />
 

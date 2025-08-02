@@ -12,6 +12,19 @@ export async function getJejakTaniUpdates() {
         _count: {
           select: { likes: true, comments: true },
         },
+        comments: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+                image: true,
+              },
+            },
+          },
+        },
+        likes: true,
         proyekTani: {
           include: {
             petani: {
@@ -28,6 +41,7 @@ export async function getJejakTaniUpdates() {
       take: 20,
     });
     return updates;
+
   } catch (error) {
     console.error("Gagal mengambil data Jejak Tani:", error);
     return [];

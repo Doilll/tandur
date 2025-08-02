@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { StatusProduk } from "@prisma/client";
 import { ArrowLeft, Save, Trash2, Upload, X } from "lucide-react";
+import FileDropzone from "@/components/FileDropzone";
 
 const EditProdukPage = () => {
   const router = useRouter();
@@ -246,25 +247,13 @@ const EditProdukPage = () => {
         </div>
         <div>
           <label className="block text-sm font-medium">Foto Produk</label>
-          <div className="border-2 border-dashed rounded-lg p-6 text-center">
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              id="file-upload"
-              className="hidden"
-              onChange={(e) =>
-                e.target.files && handleImageUpload(e.target.files)
-              }
-            />
-            <label
-              htmlFor="file-upload"
-              className="cursor-pointer flex flex-col items-center gap-2"
-            >
-              <Upload size={24} className="text-gray-400" />
-              <span className="text-sm">Klik untuk upload</span>
-            </label>
-          </div>
+          <FileDropzone
+            onFilesDrop={handleImageUpload}
+            id="file-upload"
+          />
+          <p className="text-sm text-gray-500 mt-1">
+            Upload gambar produk (maksimal 5 gambar).
+          </p>
           <div className="mt-4 grid grid-cols-3 sm:grid-cols-5 gap-3">
             {formData.fotoUrl.map((url, i) => (
               <div key={i} className="relative">
@@ -288,4 +277,5 @@ const EditProdukPage = () => {
     </form>
   );
 };
+
 export default EditProdukPage;

@@ -51,7 +51,7 @@ export async function PUT(
 
   const { id } = await params;
   const body = await request.json();
-  const { namaProyek, deskripsi, lokasiLahan } = body;
+  const { namaProyek, deskripsi, lokasiLahan, status } = body;
 
   try {
     const proyek = await prisma.proyekTani.update({
@@ -60,6 +60,7 @@ export async function PUT(
         namaProyek,
         deskripsi,
         lokasiLahan,
+        status,
       },
     });
 

@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { Upload, X } from "lucide-react";
 import { FarmingUpdate } from "@prisma/client";
+import FileDropzone from "@/components/FileDropzone";
 
 // Tipe data form untuk update
 type UpdateFormData = Omit<FarmingUpdate, "id" | "proyekTaniId" | "createdAt">;
@@ -12,7 +13,6 @@ interface UpdateEditorModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (data: UpdateFormData) => void;
-  // initialData bisa ditambahkan nanti untuk fungsionalitas edit
 }
 
 export const UpdateEditorModal = ({
@@ -103,24 +103,10 @@ export const UpdateEditorModal = ({
               <label className="block text-sm font-medium">
                 Foto Dokumentasi
               </label>
-              <div className="border-2 border-dashed rounded-lg p-6 text-center">
-                <input
-                  type="file"
-                  multiple
-                  id="update-images"
-                  className="hidden"
-                  onChange={(e) =>
-                    e.target.files && handleImageUpload(e.target.files)
-                  }
-                />
-                <label
-                  htmlFor="update-images"
-                  className="cursor-pointer flex flex-col items-center gap-2"
-                >
-                  <Upload size={24} className="text-gray-400" />
-                  <span className="text-sm">Klik untuk upload</span>
-                </label>
-              </div>
+              <FileDropzone
+                onFilesDrop={handleImageUpload}
+                id="file-upload"
+              />
               <div className="mt-4 grid grid-cols-3 sm:grid-cols-5 gap-3">
                 {formData.fotoUrl.map((url, i) => (
                   <div key={i} className="relative">

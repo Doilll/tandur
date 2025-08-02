@@ -11,9 +11,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import ProductImages from "@/components/ProductImages";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import HandleShare from "@/components/HandleShare";
+import Navbar from "@/components/Navbar";
 import Providers from "@/components/providers";
 
 const getProdukData = async (id: string) => {

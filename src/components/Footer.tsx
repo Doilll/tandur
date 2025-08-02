@@ -31,7 +31,7 @@ const Footer = () => (
           <ul className="space-y-2 text-slate-400">
             <li>
               <Link
-                href="#tentang"
+                href="/tentang"
                 className="hover:text-white transition-colors"
               >
                 Tentang Kami
@@ -39,7 +39,7 @@ const Footer = () => (
             </li>
             <li>
               <Link
-                href="#produk"
+                href="/produk"
                 className="hover:text-white transition-colors"
               >
                 Produk
@@ -51,14 +51,6 @@ const Footer = () => (
                 className="hover:text-white transition-colors"
               >
                 Petani
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/kontak"
-                className="hover:text-white transition-colors"
-              >
-                Kontak
               </Link>
             </li>
           </ul>
