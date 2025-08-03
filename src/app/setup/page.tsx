@@ -19,7 +19,7 @@ export default function SetupPage() {
   const { data: session, update } = useSession();
   const router = useRouter();
 
-  if (!session?.user) {
+  if (!session?.user.username) {
     router.push("/sign-in");
     return null;
   }
@@ -84,7 +84,6 @@ export default function SetupPage() {
   };
 
   return (
-    <SessionProvider>
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="bg-green-600 p-6 text-white">
@@ -217,6 +216,5 @@ export default function SetupPage() {
           </div>
         </div>
       </div>
-    </SessionProvider>
   );
 }

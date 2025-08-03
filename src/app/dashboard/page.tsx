@@ -26,7 +26,7 @@ const StatCard = ({ title, value, icon: Icon, colorClass }: any) => (
 
 export default function DashboardOverviewPage() {
   const [proyek, setProyek] = useState<ProyekWithFaseGambar[]>([]);
-  const [stats, setStats] = useState({ proyekAktif: 0, totalProduk: 0 });
+  const [stats, setStats] = useState({ proyekAktif: 0, totalProduk: 0, totalUpdate: 0 });
   const [aktivitasTerbaru, setAktivitasTerbaru] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,15 +47,22 @@ export default function DashboardOverviewPage() {
 
       setProyek(proyekData);
       setStats({
-        proyekAktif:
-          proyekData.filter((p: any) => p.status !== "SELESAI").length || 0,
-        totalProduk: 0,
+        proyekAktif: proyekData.filter((p: any) => p.status !== "SELESAI")
+          .length,
+        totalProduk: proyekData.reduce(
+          (total: number, p: any) => total + (p.produk?.length || 0),
+          0
+
+        ), totalUpdate: proyekData.reduce(
+          (total: number, p: any) => total + (p.updates?.length || 0),
+          0
+        ),
       });
       setAktivitasTerbaru([]);
     } catch (error) {
       console.error("Error fetching data:", error);
       setProyek([]);
-      setStats({ proyekAktif: 0, totalProduk: 0 });
+      setStats({ proyekAktif: 0, totalProduk: 0, totalUpdate: 0 });
     } finally {
       setIsLoading(false);
     }
@@ -98,8 +105,8 @@ export default function DashboardOverviewPage() {
             colorClass="bg-sky-500"
           />
           <StatCard
-            title="Pengunjung Profil (30 hari)"
-            value="-"
+            title="Jumlah Aktivitas"
+            value={stats.totalUpdate}
             icon={BarChart3}
             colorClass="bg-amber-500"
           />

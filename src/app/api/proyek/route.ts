@@ -99,6 +99,15 @@ export async function GET(request: NextRequest) {
       where: {
         petaniId: session.user.id,
       },
+      include: {
+        fase: {
+          select: {
+            gambar: true,
+          },
+        },
+        produk: true,
+        updates: true,
+      },
       orderBy: {
         createdAt: "desc",
       },

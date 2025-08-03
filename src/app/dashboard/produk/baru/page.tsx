@@ -29,7 +29,7 @@ const TambahProdukPage = () => {
         const res = await fetch("/api/proyek");
         const responseData = await res.json();
         // Pastikan yang di-set ke state adalah sebuah array
-        setProyekList(Array.isArray(responseData) ? responseData : []);
+        setProyekList(Array.isArray(responseData.data) ? responseData.data : []);
       } catch (error) {
         console.error("Gagal mengambil daftar proyek:", error);
       }
