@@ -45,8 +45,6 @@ export default function RootLayout({
       >
         {children}
         <ChatbotWrapper />
-
-        <Footer />
       </body>
     </html>
   );
